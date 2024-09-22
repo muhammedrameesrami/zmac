@@ -7,8 +7,8 @@ class Pallete{
   static const blackColor = Color.fromRGBO(1, 1, 1, 1); // primary color
   static const greyColor = Color(0xff9B9B9B); // secondary color;
   static const whiteColor = Colors.white;
-  static const primaryColor = Color.fromRGBO(255, 255, 255, 1);
-  static const secondoryColor = Color(0xff2155BF);
+  static const primaryColor =  Colors.white;
+  static const secondoryColor = Color.fromRGBO(1, 1, 1, 1);
   static OutlineInputBorder _border(Color color) => OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(color: color, width: 1));

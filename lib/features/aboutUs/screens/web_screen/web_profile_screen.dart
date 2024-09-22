@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constant/variables.dart';
 import '../../../../core/theme/pallete.dart';
 
-class WebProfileScreen extends StatelessWidget {
-  const WebProfileScreen({
+class WebAboutUsScreen extends StatelessWidget {
+  const WebAboutUsScreen({
     super.key,
   });
 
@@ -29,7 +29,7 @@ class WebProfileScreen extends StatelessWidget {
                     width: w * 0.35,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      color: Pallete.secondoryColor,
+                      color: Pallete.primaryColor,
                     ),
                     child: Column(
                       children: [
@@ -38,7 +38,7 @@ class WebProfileScreen extends StatelessWidget {
                           radius: 75,
                           backgroundImage: AssetImage(
                               'assets/images/defaultStoreImage-web.png'),
-                          backgroundColor: Colors.white,
+                          backgroundColor: Pallete.primaryColor,
                           child: Stack(children: [
                             Align(
                               alignment: Alignment.bottomRight,
@@ -60,36 +60,6 @@ class WebProfileScreen extends StatelessWidget {
                             ),
                           ]),
                         ),
-                        //     : CircleAvatar(
-                        //   radius: 75,
-                        //   backgroundImage:
-                        //   NetworkImage(shopeModel.shopProfile),
-                        //   backgroundColor: Colors.transparent,
-                        //   child: Stack(children: [
-                        //     Align(
-                        //       alignment: Alignment.bottomRight,
-                        //       heightFactor: deviceHeight * 0.14,
-                        //       widthFactor: deviceWidth * 0.05,
-                        //       child: CircleAvatar(
-                        //         radius: 20.1,
-                        //         backgroundColor: Pallete.blackColor,
-                        //         child: GestureDetector(
-                        //           onTap: () => Routemaster.of(context).push(
-                        //               '/store/homescreen/$shopId/editShopProfile'),
-                        //           child: CircleAvatar(
-                        //             radius: 20,
-                        //             backgroundColor: Pallete.primaryColor,
-                        //             child: Center(
-                        //               child: Icon(Icons.edit_rounded,
-                        //                   color: Pallete.secondaryColor,
-                        //                   size: deviceWidth * 0.016),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ]),
-                        // ),
                         SizedBox(height: h * 0.01),
                         Text(
                           "shopeModel.name",
@@ -110,7 +80,7 @@ class WebProfileScreen extends StatelessWidget {
                           width: w * 0.310,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: Pallete.secondoryColor,
+                            color: Pallete.primaryColor,
                           ),
                           height: w * 0.08,
                           child: Row(
@@ -126,7 +96,7 @@ class WebProfileScreen extends StatelessWidget {
                                       child: Text("shopeModel.subscriptionId",
                                           style: TextStyle(
                                               decoration: TextDecoration.none,
-                                              color: Pallete.primaryColor,
+                                              color: Pallete.secondoryColor,
                                               fontSize: w * 0.015)),
                                     ),
                                     Padding(
@@ -136,7 +106,7 @@ class WebProfileScreen extends StatelessWidget {
                                         'Expire on  : ',
                                         style: TextStyle(
                                             decoration: TextDecoration.none,
-                                            color: Pallete.primaryColor,
+                                            color: Pallete.secondoryColor,
                                             fontSize: w * 0.012,
                                             fontWeight: FontWeight.normal),
                                       ),
@@ -156,11 +126,11 @@ class WebProfileScreen extends StatelessWidget {
                                     width: w * 0.06,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: Colors.grey.withOpacity(0.5)),
+                                        color: Pallete.primaryColor,),
                                     child: Center(
                                         child: Icon(
                                           Icons.arrow_forward_ios,
-                                          color: Pallete.primaryColor,
+                                          color: Pallete.secondoryColor,
                                           size: w * 0.02,
                                         )),
                                   ),

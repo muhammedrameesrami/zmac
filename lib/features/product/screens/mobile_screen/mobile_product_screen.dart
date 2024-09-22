@@ -34,104 +34,75 @@ class _MobileProductScreenState extends State<MobileProductScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      'Product count',style: GoogleFonts.nunitoSans(color: Colors.black,fontSize: w*0.03,fontWeight: FontWeight.w500),),
-                    SizedBox(
-                      height:isTab? h * .035:h*.04,
-                      width:isTab? w * .23:w*.6,
-                      child: TextFormField(
-                        onChanged: (value) {
-                          // Perform search logic here
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          contentPadding: const EdgeInsets.only(),
-                          prefixIcon: const Icon(Icons.search),
-                          hintStyle: GoogleFonts.nunitoSans(
-                            fontWeight: FontWeight.w700,
-                            fontSize: w * .010,
-                          ),
-                          hintText: "Search",
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: Colors.transparent,
+
+                    Expanded(
+                      child: SizedBox(
+                        height:isTab? h * .045:w*.06,
+                        // width:isTab? w * .23:w*.6,
+                        child: TextFormField(
+                          onChanged: (value) {
+                            // Perform search logic here
+                          },
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Pallete.primaryColor,
+                            contentPadding: const EdgeInsets.only(),
+                            prefixIcon: const Icon(Icons.search),
+                            hintStyle: GoogleFonts.nunitoSans(
+                              fontWeight: FontWeight.w700,
+                              fontSize: isTab?h*0.03:w*0.04,
                             ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                              color: Colors.transparent,
+                            hintText: "Search",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                color: Colors.transparent,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ), // Price Dropdown
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: isTab?h * .08:w*0.08,
+                        // width: w * .38,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Pallete.secondoryColor),
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          value: selectedPriceDropdown,
+                          decoration: const InputDecoration(border: InputBorder.none),
+                          hint:  Text("Sort in Price",style: GoogleFonts.nunitoSans(fontSize: isTab?h*0.02:w*0.02,color: Pallete.secondoryColor),),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedPriceDropdown = newValue;
+                            });
+                          },
+                          items: priceRange.map((String price) {
+                            return DropdownMenuItem<String>(
+                              value: price,
+                              child: Text(
+                                price,
+                                style:  GoogleFonts.nunitoSans(color: Pallete.secondoryColor,fontSize:isTab?h*0.02:w*0.03,
+                                  decoration: TextDecoration.none, // Remove underline
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),// Price Dropdown
                   ],
                 ),
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                  height: h * .06,
-                  width: w * .38,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black),
-                  ),
-                  child: DropdownButtonFormField<String>(
-                    value: selectedPriceDropdown,
-                    decoration: const InputDecoration(border: InputBorder.none),
-                    hint:  Text("Sort in Price",style: GoogleFonts.nunitoSans(fontSize: w*0.03),),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedPriceDropdown = newValue;
-                      });
-                    },
-                    items: priceRange.map((String price) {
-                      return DropdownMenuItem<String>(
-                        value: price,
-                        child: Text(
-                          price,
-                          style:  GoogleFonts.nunitoSans(color: Colors.black,fontSize: w*0.03,
-                            decoration: TextDecoration.none, // Remove underline
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                  // Features Dropdown
-                  Container(
-                    height: h * .06,
-                    width: w * .35,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: DropdownButtonFormField<String>(
-                      value: selectedFeatureDropdown,
-                      decoration: const InputDecoration(border: InputBorder.none),
-                      hint:  Text("Select Feature",style: GoogleFonts.nunitoSans(fontSize: w*0.03),),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedFeatureDropdown = newValue;
-                        });
-                      },
-                      items: features.map((String feature) {
-                        return DropdownMenuItem<String>(
-                          value: feature,
-                          child: Text(
-                            feature,
-                            style:  GoogleFonts.nunitoSans(color: Colors.black,fontSize: w*0.03,
-                              decoration: TextDecoration.none, // Remove underline
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),],)
             ],
           ),
         ),
@@ -140,7 +111,7 @@ class _MobileProductScreenState extends State<MobileProductScreen> {
           child:GridView.builder(
             gridDelegate:
             SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio:isTab?1.5: 0.65,
+              childAspectRatio:isTab?1.5: 0.84,
               crossAxisCount:
               2, // Number of columns
               crossAxisSpacing: w *
@@ -151,8 +122,6 @@ class _MobileProductScreenState extends State<MobileProductScreen> {
             itemCount: 20, // Number of items in the grid
             itemBuilder: (BuildContext context,
                 int index) {
-
-
               return GestureDetector(
                 onTap: () {
                   // Handle tap on the grid item
@@ -182,14 +151,14 @@ class _MobileProductScreenState extends State<MobileProductScreen> {
                       borderRadius: BorderRadius.circular(w * 0.02),
                       border: Border.all(color: Pallete.primaryColor),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: w * 0.01, right: w * 0.01),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              height: w>=500?h*0.2:h * 0.19,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex:3,
+                          child: Container(
+                              // height: w>=500?h*0.2:h * 0.19,
                               decoration: BoxDecoration(
                                   color: Colors.grey,
                                   borderRadius:
@@ -199,63 +168,64 @@ class _MobileProductScreenState extends State<MobileProductScreen> {
                                     Icons.image,
                                     size: w * 0.05,
                                   ))),
-                          // SizedBox(height: h*0.007,),
-                          Container(
-                            height: h * 0.05,width: w,
-                            child: Center(
-                              child: Text(
-                                'product name and description ',
+                        ),
+                        // SizedBox(height: h*0.007,),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              'product name and description ',
+                              style: GoogleFonts.nunitoSans(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize:w>h?h*0.02:w*0.03),
+                            ),
+                          ),
+                        ),
+                        // SizedBox(height: h*0.04,),
+                        Expanded(
+                          // width: w ,
+                          // height: w<=903?h*0.03: h * 0.023,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                '₹ 200',
                                 style: GoogleFonts.nunitoSans(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: w * 0.03),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize:isTab?h*0.02: w * 0.03,
+                                  color: Colors.grey,
+                                  decoration: TextDecoration
+                                      .lineThrough, // Adds strikethrough effect
+                                  decorationThickness:
+                                  2.0, // Adjusts thickness of the line (optional)
+                                  decorationColor: Colors.grey,
+                                ),
                               ),
-                            ),
-                          ),
-                          // SizedBox(height: h*0.04,),
-                          Container(
-                            width: w ,
-                            height: w<=903?h*0.03: h * 0.023,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '₹ 200',
-                                  style: GoogleFonts.nunitoSans(
+                              SizedBox(
+                                width: w * 0.009,
+                              ),
+                              Text(
+                                '₹ 200',
+                                style: GoogleFonts.nunitoSans(
                                     fontWeight: FontWeight.w400,
-                                    fontSize:isTab?h*0.02: w * 0.03,
-                                    color: Colors.grey,
-                                    decoration: TextDecoration
-                                        .lineThrough, // Adds strikethrough effect
-                                    decorationThickness:
-                                    2.0, // Adjusts thickness of the line (optional)
-                                    decorationColor: Colors.grey,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: w * 0.009,
-                                ),
-                                Text(
-                                  '₹ 200',
-                                  style: GoogleFonts.nunitoSans(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: isTab?h*0.02: w * 0.03),
-                                ),
-                                SizedBox(
-                                  width: w * 0.01,
-                                ),
-                                Text(
-                                  '60% off',
-                                  style: GoogleFonts.nunitoSans(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize:isTab?h*0.02: w * 0.03),
-                                ),
-                              ],
-                            ),
+                                    fontSize: isTab?h*0.02: w * 0.03),
+                              ),
+                              SizedBox(
+                                width: w * 0.01,
+                              ),
+                              Text(
+                                '60% off',
+                                style: GoogleFonts.nunitoSans(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:isTab?h*0.02: w * 0.03),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: h*0.008,),
-                          Container(
-                            height: h * .04,
-                            width: w * .38,
+                        ),
+                        // SizedBox(height: h*0.008,),
+                        Expanded(
+                          child: Container(
+                            // height: h * .04,
+                            width: w ,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.green),
@@ -269,9 +239,9 @@ class _MobileProductScreenState extends State<MobileProductScreen> {
                                 ),
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),

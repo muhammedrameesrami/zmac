@@ -5,8 +5,8 @@ import 'package:product_project/features/home/screens/web_screen/web_main_contai
 
 import '../../../../core/constant/variables.dart';
 import '../../../../core/theme/pallete.dart';
+import '../../../aboutUs/screens/web_screen/web_profile_screen.dart';
 import '../../../product/screens/web_screen/web_product_screen.dart';
-import '../../../profile/screens/web_screen/web_profile_screen.dart';
 import '../mobile_screen/mobile_home_screen.dart';
 
 class WebHomeScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
           children: [
             // TabBar at the top
             Container(
-              color: Colors.grey[200], // Background color for TabBar container
+              color: Pallete.primaryColor, // Background color for TabBar container
               child:
               // Padding(
               //     padding: const EdgeInsets.all(8.0),
@@ -62,17 +62,17 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                   }else if(value ==1){
                     selectedPage='Product';
                   }else{
-                    selectedPage='Profile';
+                    selectedPage='About Us';
                   }
                   setState(() {
 
                   });
                 },
-                indicatorColor: Colors.blue,
+                indicatorColor:Pallete.secondoryColor,
                 tabs: [
                   Tab(text: 'Home'),
                   Tab(text: 'Product'),
-                  Tab(text: 'Profile'),
+                  Tab(text: 'About Us'),
                 ],
               ),
             ),
@@ -86,7 +86,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                   // Product Tab content
                   const WebProductScreen(),
                   // Profile Tab content
-                  const WebProfileScreen(),
+                  const WebAboutUsScreen(),
                 ],
               ),
             ),

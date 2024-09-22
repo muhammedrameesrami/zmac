@@ -32,7 +32,7 @@ class _WebProductScreenState extends State<WebProductScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                 Text('Product count',style: GoogleFonts.nunitoSans(color: Colors.black,fontSize: w*0.01,fontWeight: FontWeight.w500),),
+
                 SizedBox(
                   height: h * .046,
                   width: w * .28,
@@ -42,7 +42,7 @@ class _WebProductScreenState extends State<WebProductScreen> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.grey[100],
+                      fillColor:Pallete.primaryColor,
                       contentPadding: const EdgeInsets.only(),
                       prefixIcon: const Icon(Icons.search),
                       hintStyle: GoogleFonts.nunitoSans(
@@ -95,36 +95,6 @@ class _WebProductScreenState extends State<WebProductScreen> {
                     }).toList(),
                   ),
                 ),
-                // Features Dropdown
-                Container(
-                  height: h * .06,
-                  width: w * .16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.black),
-                  ),
-                  child: DropdownButtonFormField<String>(
-                    value: selectedFeatureDropdown,
-                    decoration: const InputDecoration(border: InputBorder.none),
-                    hint:  Text("Select Feature",style: GoogleFonts.nunitoSans(fontSize: w*0.01),),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedFeatureDropdown = newValue;
-                      });
-                    },
-                    items: features.map((String feature) {
-                      return DropdownMenuItem<String>(
-                        value: feature,
-                        child: Text(
-                          feature,
-                          style:  GoogleFonts.nunitoSans(color: Colors.black,fontSize: w*0.01,
-                            decoration: TextDecoration.none, // Remove underline
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
               ],
             ),
           ),
@@ -169,96 +139,93 @@ class _WebProductScreenState extends State<WebProductScreen> {
                       borderRadius: BorderRadius.circular(w * 0.02),
                       border: Border.all(color: Pallete.primaryColor),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: w * 0.01, right: w * 0.01),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              height: w<=1062?h*0.22:h * 0.25,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius:
-                                      BorderRadius.circular(w * 0.02)),
-                              child: Center(
-                                  child: Icon(
-                                Icons.image,
-                                size: w * 0.05,
-                              ))),
-                          // SizedBox(height: h*0.007,),
-                          Container(
-                            height: h * 0.05,width: w,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            height: w<=1062?h*0.22:h * 0.25,
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius:
+                                    BorderRadius.circular(w * 0.02)),
                             child: Center(
-                              child: Text(
-                                'product name and description ',
+                                child: Icon(
+                              Icons.image,
+                              size: w * 0.05,
+                            ))),
+                        // SizedBox(height: h*0.007,),
+                        Container(
+                          height: h * 0.05,width: w,
+                          child: Center(
+                            child: Text(
+                              'product name and description ',
+                              style: GoogleFonts.nunitoSans(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: w * 0.01),
+                            ),
+                          ),
+                        ),
+                        // SizedBox(height: h*0.02,),
+                        Container(
+                          width: w ,
+                          height: h * 0.03,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                '₹ 200',
                                 style: GoogleFonts.nunitoSans(
-                                    fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: w * 0.01,
+                                  color: Colors.grey,
+                                  decoration: TextDecoration
+                                      .lineThrough, // Adds strikethrough effect
+                                  decorationThickness:
+                                      2.0, // Adjusts thickness of the line (optional)
+                                  decorationColor: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(
+                                width: w * 0.006,
+                              ),
+                              Text(
+                                '₹ 200',
+                                style: GoogleFonts.nunitoSans(
+                                    fontWeight: FontWeight.w400,
                                     fontSize: w * 0.01),
                               ),
-                            ),
-                          ),
-                          // SizedBox(height: h*0.02,),
-                          Container(
-                            width: w ,
-                            height: h * 0.03,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '₹ 200',
-                                  style: GoogleFonts.nunitoSans(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: w * 0.01,
-                                    color: Colors.grey,
-                                    decoration: TextDecoration
-                                        .lineThrough, // Adds strikethrough effect
-                                    decorationThickness:
-                                        2.0, // Adjusts thickness of the line (optional)
-                                    decorationColor: Colors.grey,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: w * 0.006,
-                                ),
-                                Text(
-                                  '₹ 200',
-                                  style: GoogleFonts.nunitoSans(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: w * 0.01),
-                                ),
-                                SizedBox(
-                                  width: w * 0.008,
-                                ),
-                                Text(
-                                  '60% off',
-                                  style: GoogleFonts.nunitoSans(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: w * 0.01),
-                                ),
-                              ],
-                            ),
-                          ),
-                       // SizedBox(height: h*0.008,),
-                          Container(
-                            height: h * .04,
-                            width: w * .38,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.green),
-                            child: Center(
-                              child: Text(
-                                'WhatsApp ',
+                              SizedBox(
+                                width: w * 0.008,
+                              ),
+                              Text(
+                                '60% off',
                                 style: GoogleFonts.nunitoSans(
-                                  color: Pallete.whiteColor,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: w * .015,
-                                ),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: w * 0.01),
+                              ),
+                            ],
+                          ),
+                        ),
+                     // SizedBox(height: h*0.008,),
+                        Container(
+                          height: h * .04,
+                          width: w * .38,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.green),
+                          child: Center(
+                            child: Text(
+                              'WhatsApp ',
+                              style: GoogleFonts.nunitoSans(
+                                color: Pallete.whiteColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: w * .015,
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
