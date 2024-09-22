@@ -1,0 +1,100 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:product_project/features/home/screens/web_screen/web_main_container.dart';
+
+import '../../../../core/constant/variables.dart';
+import '../../../../core/theme/pallete.dart';
+import '../../../product/screens/web_screen/web_product_screen.dart';
+import '../../../profile/screens/web_screen/web_profile_screen.dart';
+import '../mobile_screen/mobile_home_screen.dart';
+
+class WebHomeScreen extends StatefulWidget {
+  const WebHomeScreen({super.key,required this.contextHome});
+  final BuildContext contextHome;
+
+  @override
+  State<WebHomeScreen> createState() => _WebHomeScreenState();
+}
+
+class _WebHomeScreenState extends State<WebHomeScreen> {
+  @override
+  Widget build(BuildContext contexthome) {
+    return DefaultTabController(
+      initialIndex:selectedPage == 'Home'?0:selectedPage == 'Product'?1:2,
+      length: 3, // Number of tabs
+      child: Scaffold(
+        body: Column(
+          children: [
+            // TabBar at the top
+            Container(
+              color: Colors.grey[200], // Background color for TabBar container
+              child:
+              // Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //         color: Colors.black12,
+              //         borderRadius: BorderRadius.circular(20),
+              //       ),
+              //       child: TabBar(
+              //         tabs: [
+              //           Tab(text: 'Active'),
+              //           Tab(text: 'Finished'),
+              //         ],
+              //         indicatorSize: TabBarIndicatorSize.tab,
+              //         labelColor: Colors.white,
+              //         unselectedLabelColor: Colors.white,
+              //         indicator: BoxDecoration(
+              //           color: const Color(0xff02B558),
+              //           borderRadius: BorderRadius.circular(20),
+              //         ),
+              //         dividerColor: Colors.transparent,
+              //         splashBorderRadius: BorderRadius.circular(20),
+              //       ),
+              //     ),
+              //     ),
+              TabBar(
+                onTap: (value) {
+                  if(value==0){
+                    selectedPage='Home';
+
+                  }else if(value ==1){
+                    selectedPage='Product';
+                  }else{
+                    selectedPage='Profile';
+                  }
+                  setState(() {
+
+                  });
+                },
+                indicatorColor: Colors.blue,
+                tabs: [
+                  Tab(text: 'Home'),
+                  Tab(text: 'Product'),
+                  Tab(text: 'Profile'),
+                ],
+              ),
+            ),
+            // Expanded content area to show tab-specific content
+            Expanded(
+              child: TabBarView(
+
+                children: [
+                  // Home Tab content - Red container
+                  WebMainContainer(),
+                  // Product Tab content
+                  const WebProductScreen(),
+                  // Profile Tab content
+                  const WebProfileScreen(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
