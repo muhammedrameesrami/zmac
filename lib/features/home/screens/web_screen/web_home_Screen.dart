@@ -10,7 +10,7 @@ import '../../../product/screens/web_screen/web_product_screen.dart';
 import '../mobile_screen/mobile_home_screen.dart';
 
 class WebHomeScreen extends StatefulWidget {
-  const WebHomeScreen({super.key,required this.contextHome});
+  const WebHomeScreen({super.key, required this.contextHome});
   final BuildContext contextHome;
 
   @override
@@ -21,54 +21,31 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
   @override
   Widget build(BuildContext contexthome) {
     return DefaultTabController(
-      initialIndex:selectedPage == 'Home'?0:selectedPage == 'Product'?1:2,
+      initialIndex: selectedPage == 'Home'
+          ? 0
+          : selectedPage == 'Product'
+              ? 1
+              : 2,
       length: 3, // Number of tabs
       child: Scaffold(
         body: Column(
           children: [
             // TabBar at the top
             Container(
-              color: Pallete.primaryColor, // Background color for TabBar container
-              child:
-              // Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: Container(
-              //       decoration: BoxDecoration(
-              //         color: Colors.black12,
-              //         borderRadius: BorderRadius.circular(20),
-              //       ),
-              //       child: TabBar(
-              //         tabs: [
-              //           Tab(text: 'Active'),
-              //           Tab(text: 'Finished'),
-              //         ],
-              //         indicatorSize: TabBarIndicatorSize.tab,
-              //         labelColor: Colors.white,
-              //         unselectedLabelColor: Colors.white,
-              //         indicator: BoxDecoration(
-              //           color: const Color(0xff02B558),
-              //           borderRadius: BorderRadius.circular(20),
-              //         ),
-              //         dividerColor: Colors.transparent,
-              //         splashBorderRadius: BorderRadius.circular(20),
-              //       ),
-              //     ),
-              //     ),
-              TabBar(
+              color:
+                  Pallete.primaryColor, // Background color for TabBar container
+              child: TabBar(
                 onTap: (value) {
-                  if(value==0){
-                    selectedPage='Home';
-
-                  }else if(value ==1){
-                    selectedPage='Product';
-                  }else{
-                    selectedPage='About Us';
+                  if (value == 0) {
+                    selectedPage = 'Home';
+                  } else if (value == 1) {
+                    selectedPage = 'Product';
+                  } else {
+                    selectedPage = 'About Us';
                   }
-                  setState(() {
-
-                  });
+                  setState(() {});
                 },
-                indicatorColor:Pallete.secondoryColor,
+                indicatorColor: Pallete.secondoryColor,
                 tabs: [
                   Tab(text: 'Home'),
                   Tab(text: 'Product'),
@@ -79,7 +56,6 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
             // Expanded content area to show tab-specific content
             Expanded(
               child: TabBarView(
-
                 children: [
                   // Home Tab content - Red container
                   WebMainContainer(),
@@ -96,5 +72,3 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
     );
   }
 }
-
-

@@ -19,7 +19,7 @@ class _MobileProductScreenState extends State<MobileProductScreen> {
   @override
   Widget build(BuildContext context) {
     print(w);
-    final isTab=w>h;
+
 
     return Column(
       children: [
