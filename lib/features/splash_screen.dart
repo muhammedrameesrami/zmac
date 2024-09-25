@@ -19,7 +19,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1)).then((value) {
-     Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),));
+     Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
     });
   }
 

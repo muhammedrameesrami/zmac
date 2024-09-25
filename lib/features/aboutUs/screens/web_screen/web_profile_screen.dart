@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:product_project/core/constant/asset_constant.dart';
 
@@ -14,6 +13,9 @@ class WebAboutUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTab=w>h;
+    w=MediaQuery.of(context).size.width;
+    h=MediaQuery.of(context).size.height;
     return Container(
       color: Pallete.primaryColor,
       child: SingleChildScrollView(
@@ -32,17 +34,17 @@ class WebAboutUsScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: _rowContainer(
-                          'TOTAL SALES', '120', AssetConstant.clients),
+                          'TOTAL SALES', '120', AssetConstant.mac,Colors.black),
                     ),
                     SizedBox(width: w * 0.02), // Small space between containers
                     Expanded(
                       child: _rowContainer('TOTAL PRODUCTS', '1200',
-                          AssetConstant.happyCustomer),
+                          AssetConstant.iPad,Pallete.whiteColor  ),
                     ),
                     SizedBox(width: w * 0.02), // Small space between containers
                     Expanded(
                       child: _rowContainer(
-                          'HAPPY CUSTOMER', '120', AssetConstant.happyCustomer),
+                          'HAPPY CUSTOMER', '120', AssetConstant.groupDevice,Colors.black),
                     ),
                   ],
                 ),
@@ -50,6 +52,32 @@ class WebAboutUsScreen extends StatelessWidget {
             ),
 
             SizedBox(height: isTab ? w * 0.01 : h * 0.01),
+Text('OUR SERVICES',style: GoogleFonts.nunitoSans(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
+            Container(
+              width: w,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: _ServiceContainer(
+                        'CHIP LEVEL SERVICE', AssetConstant.chip,Colors.white),
+                  ),
+                  SizedBox(width: w * 0.02), // Small space between containers
+                  Expanded(
+                    child: _ServiceContainer('CUSTOMER SUPPORT',
+                        AssetConstant.customerService,Pallete.whiteColor),
+                  ),
+                  SizedBox(width: w * 0.02), // Small space between containers
+                  Expanded(
+                    child: _ServiceContainer(
+                        'SALES AND SERVICE', AssetConstant.service,Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: isTab ? w * 0.01 : h * 0.01),
+
+            Text('CONTACT US',style: GoogleFonts.nunitoSans(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
 
             /// footer section
             Container(
@@ -91,10 +119,10 @@ class WebAboutUsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: h * 0.02),
                   Text(
-                    'Location: Malappuram',
+                    'Location: Pootholi Building, Kiliyanad Road, behind Rajendra Hospital, Kozhikode, Kerala 673001',
                     style: GoogleFonts.nunitoSans(
                         fontSize: isTab ? h * 0.02 : w * 0.06,
-                        color: Pallete.secondoryColor),
+                        color: Colors.blue,decoration: TextDecoration.underline,decorationColor: Colors.blue),
                   ),
                   Text(
                     'Email: zmac@gmail.com',
@@ -124,7 +152,7 @@ class WebAboutUsScreen extends StatelessWidget {
     );
   }
 
-  Widget _rowContainer(String title, String value, String imagePath) {
+  Widget _rowContainer(String title, String value, String imagePath,Color color) {
     return Container(
       height: h * 0.3,
       decoration: BoxDecoration(
@@ -143,9 +171,9 @@ class WebAboutUsScreen extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.nunitoSans(
-              fontSize: isTab ? h * 0.03 : w * 0.03,
+              fontSize: isTab ? h * 0.028 : w * 0.03,
               fontWeight: FontWeight.bold,
-              color: Pallete.secondoryColor,
+              color:color,
             ),
           ),
           Text(
@@ -153,9 +181,39 @@ class WebAboutUsScreen extends StatelessWidget {
             style: GoogleFonts.nunitoSans(
               fontSize: w * 0.03,
               fontWeight: FontWeight.bold,
-              color: Pallete.secondoryColor,
+              color:color,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _ServiceContainer(String title,  String imagePath,Color color) {
+    return Container(
+      height: h * 0.3,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(imagePath),
+        ),
+        color: Colors.black12,
+        borderRadius: BorderRadius.circular(w * 0.02),
+        border: Border.all(color: Colors.black38),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.nunitoSans(
+              fontSize: isTab ? h * 0.03 : w * 0.02,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+
         ],
       ),
     );

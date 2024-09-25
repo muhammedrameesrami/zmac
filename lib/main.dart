@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:product_project/core/theme/pallete.dart';
 import 'package:product_project/features/splash_screen.dart';
 
@@ -13,7 +14,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options:  DefaultFirebaseOptions.currentPlatform
   );
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'z mac',
       theme: Pallete.theme,
-      home:  SplashScreen(),
+      home:  const SplashScreen(),
     );
   }
 }
