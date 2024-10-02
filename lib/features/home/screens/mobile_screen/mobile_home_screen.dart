@@ -37,46 +37,47 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
     final isTab = w > h;
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return SafeArea(child:  Scaffold(
       appBar: AppBar(backgroundColor: Pallete.primaryColor,
         leading: InkWell(onTap: () {
           html.window.location.reload();
         },
-            child: Image.asset(AssetConstant.logo)),
+            child: SizedBox(
+                child:Image.asset(AssetConstant.logo))),
         title: Consumer(
-          builder: (context,ref,child) {
-            return Container(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: List.generate(
-                tabBarNames.length,
-                (index) => Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      ref.read(taBarIndexProvider.notifier).update(
-                            (state) => index,
-                          );
-                    },
-                    child: AnimatedContainer(
-                      height: h * .07,
-                      duration: const Duration(milliseconds: 500),
-                      child: Center(
-                        child: Text(
-                          tabBarNames[index],
-                          style: GoogleFonts.nunitoSans(
-                              color:ref.watch(taBarIndexProvider) == index
-                              ? Pallete.secondoryColor
-                              : Pallete.greyColor,fontWeight: FontWeight.bold,
-                              letterSpacing: 4,
-                              fontSize: isTab ? h * 0.03 : w * 0.025),
+            builder: (context,ref,child) {
+              return Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: List.generate(
+                      tabBarNames.length,
+                          (index) => Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            ref.read(taBarIndexProvider.notifier).update(
+                                  (state) => index,
+                            );
+                          },
+                          child: AnimatedContainer(
+                            height: h * .07,
+                            duration: const Duration(milliseconds: 500),
+                            child: Center(
+                              child: Text(
+                                tabBarNames[index],
+                                style: GoogleFonts.nunitoSans(
+                                    color:ref.watch(taBarIndexProvider) == index
+                                        ? Pallete.secondoryColor
+                                        : Pallete.greyColor,fontWeight: FontWeight.bold,
+                                    letterSpacing: 4,
+                                    fontSize: isTab ? h * 0.03 : w * 0.025),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ));
-          }
+                  ));
+            }
         ),elevation: 0,
       ),
       body: Consumer(builder: (context, ref, child) {
@@ -91,7 +92,8 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
 
-      },child: Image.asset(AssetConstant.watsApp),),
-    );
+        },child: Image.asset(AssetConstant.watsApp),),
+    ));
+
   }
 }

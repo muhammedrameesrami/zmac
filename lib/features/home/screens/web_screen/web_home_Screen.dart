@@ -34,54 +34,54 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
     final isTab = w > h;
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return SafeArea(child:     Scaffold(
       appBar: AppBar(backgroundColor: Pallete.primaryColor,
-          leading: SizedBox(),
-          title: InkWell(
-              onTap: () {
-                html.window.location.reload();
-              },
-              child: SizedBox(
-                  height: h * 0.23,
-                  child: Image.asset(
-                    AssetConstant.logo,
-                    fit: BoxFit.fill,
-                  ))),
-          actions: [
-            Consumer(builder: (context, ref, child) {
-              return Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: List.generate(
-                    tabBarNames.length,
-                    (index) => InkWell(
-                      onTap: () {
-                        ref.read(taBarIndexProvider.notifier).update(
-                              (state) => index,
-                            );
-                      },
-                      child: AnimatedContainer(
-                        width: w * 0.25,
-                        height: isTab ? h * 0.03 : w * 0.04,
-                        duration: const Duration(milliseconds: 500),
-                        child: Center(
-                          child: Text(
-                            tabBarNames[index],
-                            style: GoogleFonts.nunitoSans(fontWeight: FontWeight.bold,
-                                letterSpacing: 4,
-                                color: ref.watch(taBarIndexProvider) == index
-                                    ? Pallete.secondoryColor
-                                    : Pallete.greyColor),
-                          ),
+        leading: SizedBox(),
+        title: InkWell(
+            onTap: () {
+              html.window.location.reload();
+            },
+            child: SizedBox(
+                height: h * 0.2,
+                child: Image.asset(
+                  AssetConstant.logo,
+                  fit: BoxFit.fill,
+                ))),
+        actions: [
+          Consumer(builder: (context, ref, child) {
+            return Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: List.generate(
+                  tabBarNames.length,
+                      (index) => InkWell(
+                    onTap: () {
+                      ref.read(taBarIndexProvider.notifier).update(
+                            (state) => index,
+                      );
+                    },
+                    child: AnimatedContainer(
+                      width: w * 0.25,
+                      height: isTab ? h * 0.03 : w * 0.04,
+                      duration: const Duration(milliseconds: 500),
+                      child: Center(
+                        child: Text(
+                          tabBarNames[index],
+                          style: GoogleFonts.nunitoSans(fontWeight: FontWeight.bold,
+                              letterSpacing: 4,
+                              color: ref.watch(taBarIndexProvider) == index
+                                  ? Pallete.secondoryColor
+                                  : Pallete.greyColor),
                         ),
                       ),
                     ),
                   ),
                 ),
-              );
-            }),
-          ],elevation: 0,),
+              ),
+            );
+          }),
+        ],elevation: 0,),
       body: Consumer(builder: (context, ref, child) {
         return Column(
           children: [
@@ -98,6 +98,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
       floatingActionButton: FloatingActionButton(elevation: 1,
           onPressed: () {},
           child: Image.asset(AssetConstant.watsApp,fit: BoxFit.cover,)),
-    );
+    ));
+
   }
 }

@@ -208,7 +208,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductVie
                             width: w * .2,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Colors.green),
+                                color: Colors.black),
                             child: Center(
                               child: Text(
                                 'Book Now ',

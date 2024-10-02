@@ -120,7 +120,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                 width: isTab ? w * 0.3 : h * 0.3,
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.black,
                     padding: const EdgeInsets.all(15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

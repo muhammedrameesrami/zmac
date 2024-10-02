@@ -16,12 +16,17 @@ class WebMainContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final imageList=[AssetConstant.mac,AssetConstant.iPad,AssetConstant.groupDevice];
+
     final isTab=w>h;
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Column(
         children: [
+
+                       /// slider section......................................
+
           SizedBox(height: isTab?h*0.01:w*0.01,),
           Text('NEW ARRIVAL',style: GoogleFonts.nunitoSans(letterSpacing: 3,
               fontSize: isTab?h*0.04:w*0.04,color: Colors.black,fontWeight: FontWeight.bold),),
@@ -29,24 +34,15 @@ class WebMainContainer extends StatelessWidget {
           Container(
             height: isTab ? h * 0.4 : w * 0.4,
             width: double.infinity, // Ensure the container takes full width
-            child: CarouselSlider(
-              items: [
-                Consumer(
-                  builder: (context, ref, child) {
-                    return buildCarouselItem(AssetConstant.groupDevice);
-                  },
-                ),
-                Consumer(
-                  builder: (context, ref, child) {
-                    return buildCarouselItem(AssetConstant.mac);
-                  },
-                ),
-                Consumer(
-                  builder: (context, ref, child) {
-                    return buildCarouselItem(AssetConstant.iPad);
-                  },
-                ),
-              ],
+            child: CarouselSlider.builder(itemCount: 3,itemBuilder: (context, index, realIndex) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),child: Image.asset(imageList[index],fit: BoxFit.contain,),
+              );
+            },
+
               options: CarouselOptions(
                 enableInfiniteScroll: true,
                 initialPage: 0,
@@ -70,6 +66,9 @@ class WebMainContainer extends StatelessWidget {
               ),
             ),
           ),
+
+                              /// zmac details..................................
+
           Container(
             padding: const EdgeInsets.all(16), // Optional padding for better text layout
             child:  Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,6 +82,47 @@ class WebMainContainer extends StatelessWidget {
               ],
             ),
           ),
+
+                           /// company things
+
+          SizedBox(height: isTab?h*0.02:w*0.02,),
+          Container(
+            width: w,
+            child: Wrap(alignment: WrapAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _rowContainer(
+                    'TOTAL SALES', '120', AssetConstant.mac,Colors.black),
+                SizedBox(width: w * 0.02), // Small space between containers
+                _rowContainer('TOTAL PRODUCTS', '1200',
+                    AssetConstant.iPad,Pallete.whiteColor  ),
+                SizedBox(width: w * 0.02), // Small space between containers
+                _rowContainer(
+                    'HAPPY CUSTOMER', '120', AssetConstant.groupDevice,Colors.black),
+              ],
+            ),
+          ),
+
+          SizedBox(height: isTab ? h * 0.018 : w * 0.018),
+          Text('OUR SERVICES',style: GoogleFonts.nunitoSans(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
+          Container(
+            width: w,
+            child: Wrap(crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _ServiceContainer(
+                    'CHIP LEVEL SERVICE', AssetConstant.chip,Colors.white),
+                SizedBox(width: w * 0.02), // Small space between containers
+                _ServiceContainer('CUSTOMER SUPPORT',
+                    AssetConstant.customerService,Pallete.whiteColor),
+                SizedBox(width: w * 0.02), // Small space between containers
+                _ServiceContainer(
+                    'SALES AND SERVICE', AssetConstant.service,Colors.white),
+              ],
+            ),
+          ),
+          // SizedBox(height: isTab ? w * 0.01 : h * 0.01),
           SizedBox(height: isTab?h*0.018:w*0.018,),
           Container(
             width: w,
@@ -157,12 +197,78 @@ class WebMainContainer extends StatelessWidget {
     );
   }
 
-  Widget buildCarouselItem(String imagePath) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-      ),child: Image.asset(imagePath,fit: BoxFit.contain,),
+  Widget _rowContainer(String title, String value, String imagePath,Color color) {
+    return Padding(
+      padding:EdgeInsets.symmetric(vertical: h*0.01,horizontal: w*0.01),
+      child: Container(
+        width: isTab?w*0.4:h*0.4,
+        height: h * 0.4,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.contain,
+            image: AssetImage(imagePath),
+          ),
+          // color: Colors.black12,
+          borderRadius: BorderRadius.circular(w * 0.02),
+          border: Border.all(color: Colors.black38),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.nunitoSans(
+                fontSize:isTab ? h * 0.03 : w * 0.02,
+                fontWeight: FontWeight.bold,
+                color:color,
+              ),
+            ),
+            Text(
+              value,
+              style: GoogleFonts.nunitoSans(
+                fontSize: w * 0.03,
+                fontWeight: FontWeight.bold,
+                color:color,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
+
+  Widget _ServiceContainer(String title,  String imagePath,Color color) {
+    return Padding(
+      padding:EdgeInsets.symmetric(vertical: h*0.01,horizontal: w*0.01),
+      child: Container(width: isTab?w*0.4:h*0.4,
+        height: h * 0.4,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(imagePath),
+          ),
+          // color: Colors.black12,
+          borderRadius: BorderRadius.circular(w * 0.02),
+          border: Border.all(color: Colors.black38),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.nunitoSans(
+                fontSize: isTab ? h * 0.03 : w * 0.02,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
 }
