@@ -182,7 +182,7 @@ Text('OUR SERVICES',style: GoogleFonts.nunitoSans(fontSize: isTab ? h * 0.03 : w
   }
 
   Widget _ServiceContainer(String title,  String imagePath,Color color) {
-    return Padding(
+      return Padding(
       padding:EdgeInsets.symmetric(vertical: h*0.01,horizontal: w*0.01),
       child: Container(width: isTab?w*0.3:h*0.6,
         height: h * 0.3,
