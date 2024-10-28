@@ -64,7 +64,7 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
                             child: Center(
                               child: Text(
                                 tabBarNames[index],
-                                style: GoogleFonts.nunitoSans(
+                                style: GoogleFonts.roboto(
                                     color:ref.watch(taBarIndexProvider) == index
                                         ? Pallete.secondoryColor
                                         : Pallete.greyColor,fontWeight: FontWeight.bold,

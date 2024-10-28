@@ -6,17 +6,79 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:product_project/core/constant/asset_constant.dart';
+import 'package:product_project/models/productModel.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart'as http;
+import 'dart:io' show File;
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 
 
 class ProductViewScreen extends StatefulWidget {
-  const ProductViewScreen({super.key});
+  const ProductViewScreen({super.key,required this.productModel});
+  final ProductModel productModel;
 
   @override
   State<ProductViewScreen> createState() => _ProductViewScreenState();
 }
 
 class _ProductViewScreenState extends State<ProductViewScreen> {
+
+
+  String deepLink = 'https://zmac-48c3a.web.app/';
+
+  shareEvent({
+    required String image,
+    required String productId,
+    required String productName,
+    required String productDescription,
+    required BuildContext context,
+  }) async {
+    try {
+
+      final text = '''
+$productName
+$productDescription
+Check it out here: $deepLink/$productId
+''';
+      if (kIsWeb) {
+        await Share.share(text);
+      } else {
+        final url = Uri.parse(image);
+        final response = await http.get(url);
+        if (response.statusCode == 200) {
+          final bytes = response.bodyBytes;
+          final temp = await getApplicationDocumentsDirectory();
+          final path = '${temp.path}/image.jpg';
+          File newFile=await File(path).writeAsBytes(bytes);
+
+          // Share the image along with text
+          await Share.shareXFiles([XFile(newFile.path)], text: text);
+        } else {
+          throw Exception("Failed to load image");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to share the product: $e")),
+      );
+    }
+  }
+
+  Future<void> shareImage(String imageUrl, String caption) async {
+      http.Response response = await http.get(Uri.parse(imageUrl));
+      final directory = await getTemporaryDirectory();
+      final path = directory.path;
+      final file = File('$path/image.png');
+      await  file.writeAsBytes(response.bodyBytes);
+      String newPath = file.path;
+      await Share.shareXFiles([XFile(newPath)], text: caption);
+  }
+
+
+
   final List<String> _imageUrls = [
     AssetConstant.mac,
     AssetConstant.iPad,
@@ -40,8 +102,8 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          _productName,
-          style: GoogleFonts.nunitoSans(
+         widget.productModel.productname,
+          style: GoogleFonts.roboto(
               color: Colors.black, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
@@ -75,7 +137,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
               const SizedBox(height: 20),
               // Product Name
               Text(
-                _productName,
+              widget.productModel.productname,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -85,7 +147,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
               const SizedBox(height: 10),
               // Product Description
               Text(
-                _productDescription,
+              widget.productModel.description,
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black54,
@@ -94,18 +156,19 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
               const SizedBox(height: 20),
               // Price and Offer
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "₹${_offerPrice.toStringAsFixed(2)}",
+                    "₹${widget.productModel.showprice}",
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
+                  SizedBox(width: w*0.03,),
                   Text(
-                    "₹${_originalPrice.toStringAsFixed(2)}",
+                    "₹${widget.productModel.ogprice}",
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -126,7 +189,22 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: _shareProductWithImage, // Call the method here
+                  onPressed: () async {
+                    // const productName = 'MacBook Air 13” and 15 \n M2 or M3 chip';
+                    // const originalPrice = '₹ 680000';
+                    // const discountedPrice = '₹ 150000';
+                    // const discount = '30% off';
+                    await shareEvent(context: context,
+                    productDescription: widget.productModel.description,productName: widget.productModel.productname,
+                    image:widget.productModel.image,
+                    productId:widget.productModel.productId,);
+                    // Share the product details using Share Plus
+                    // Share.share(
+                    //     'Check out this amazing deal!\n\n$productName\nOriginal Price: $originalPrice\nDiscounted Price: $discountedPrice\n$discount',
+                    //     subject: 'Special Offer on MacBook Air! http://localhost:61104/}'
+                    // );
+                    // _shareProductWithImage();
+                  },// Call the method here
                   icon: const Icon(CupertinoIcons.chat_bubble_text),
                   label: const Text(
                     "Order on WhatsApp",
@@ -144,7 +222,7 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
     );
   }
 
-  Future<void> _shareProductWithImage() async {
+  Future<void> _shareProductWithImage(BuildContext context) async {
     try {
       // Assuming the images are locally stored, modify the logic if needed
       final imageUrl = _imageUrls.first; // You can choose the first image or any other
@@ -169,10 +247,12 @@ Check out this amazing product!
       Share.shareXFiles([XFile(imageFile.path)], text: shareText);
     } catch (e) {
       // print(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Failed to share the product: $e"),
         ) );
+      }
     }
   }
 }

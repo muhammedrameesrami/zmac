@@ -5,7 +5,7 @@ import 'package:product_project/core/theme/pallete.dart';
 import 'package:product_project/features/splash_screen.dart';
 
 import 'core/constant/variables.dart';
-import 'features/home/screens/home_page.dart';
+// import 'features/home/screens/home_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

@@ -36,7 +36,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
     h = MediaQuery.of(context).size.height;
     return SafeArea(child:     Scaffold(
       appBar: AppBar(backgroundColor: Pallete.primaryColor,
-        leading: SizedBox(),
+        leading: const SizedBox(),
         title: InkWell(
             onTap: () {
               html.window.location.reload();
@@ -49,31 +49,29 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                 ))),
         actions: [
           Consumer(builder: (context, ref, child) {
-            return Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: List.generate(
-                  tabBarNames.length,
-                      (index) => InkWell(
-                    onTap: () {
-                      ref.read(taBarIndexProvider.notifier).update(
-                            (state) => index,
-                      );
-                    },
-                    child: AnimatedContainer(
-                      width: w * 0.25,
-                      height: isTab ? h * 0.03 : w * 0.04,
-                      duration: const Duration(milliseconds: 500),
-                      child: Center(
-                        child: Text(
-                          tabBarNames[index],
-                          style: GoogleFonts.nunitoSans(fontWeight: FontWeight.bold,
-                              letterSpacing: 4,
-                              color: ref.watch(taBarIndexProvider) == index
-                                  ? Pallete.secondoryColor
-                                  : Pallete.greyColor),
-                        ),
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                tabBarNames.length,
+                    (index) => InkWell(
+                  onTap: () {
+                    ref.read(taBarIndexProvider.notifier).update(
+                          (state) => index,
+                    );
+                  },
+                  child: AnimatedContainer(
+                    width: w * 0.25,
+                    height: isTab ? h * 0.03 : w * 0.04,
+                    duration: const Duration(milliseconds: 500),
+                    child: Center(
+                      child: Text(
+                        tabBarNames[index],
+                        style: GoogleFonts.roboto(fontWeight: FontWeight.bold,
+                            letterSpacing: 4,
+                            color: ref.watch(taBarIndexProvider) == index
+                                ? Pallete.secondoryColor
+                                : Pallete.greyColor),
                       ),
                     ),
                   ),
@@ -85,8 +83,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
       body: Consumer(builder: (context, ref, child) {
         return Column(
           children: [
-
-            Expanded(
+           Expanded(
               child: tabScreen[ref.watch(taBarIndexProvider)],
             ),
           ],
