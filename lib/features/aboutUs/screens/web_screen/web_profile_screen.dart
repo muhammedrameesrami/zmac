@@ -28,7 +28,7 @@ class WebAboutUsScreen extends StatelessWidget {
 
 SizedBox(width: w,child: Wrap(alignment: WrapAlignment.center,children: [
   _lookingForwardContainer('Our Mission','dsfskdfslkfldskflskdfslkfdls',AssetConstant.ourMission),
-  _lookingForwardContainer('Our Vission','sdfsf',AssetConstant.ourVision  ),
+  _lookingForwardContainer('Our Vision','sdfsf',AssetConstant.ourVision  ),
 ],),),
             SizedBox(height: h * 0.03),
             Text('OUR SUCCESS',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
@@ -277,8 +277,9 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
   Widget _lookingForwardContainer(String title, String description, String imagePath) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.01),
-      child: Container(height: h * 0.3,
-        width: isTab ? w * 0.4 : w * 0.9,
+      child: Container(
+        height: h * 0.3,
+        width: isTab ? w * 0.4 : w * 0.5,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(w * 0.02),
@@ -300,7 +301,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                       style: GoogleFonts.roboto(
                         fontSize: isTab ? h * 0.03 : w * 0.05,
                         fontWeight: FontWeight.bold,
-                        color:Colors.black,
+                        color: Colors.black,
                       ),
                     ),
                     SizedBox(height: h * 0.01),
@@ -315,7 +316,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                 ),
               ),
             ),
-            // Image Section
+            // Image Section with Full Height
             Expanded(
               flex: 1,
               child: ClipRRect(
@@ -323,9 +324,12 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                   topRight: Radius.circular(w * 0.02),
                   bottomRight: Radius.circular(w * 0.02),
                 ),
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
+                child: SizedBox(
+                  height: double.infinity, // Full height of the parent container
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.cover, // Cover to fill the entire container
+                  ),
                 ),
               ),
             ),

@@ -7,10 +7,12 @@ import 'package:product_project/features/product/controller/productController.da
 import 'package:url_launcher/url_launcher.dart';
 
 // import '../../../../core/constant/global_names.dart';
+import '../../../../core/common/function.dart';
 import '../../../../core/constant/variables.dart';
 import '../../../../core/theme/pallete.dart';
 import '../mobile_screen/mobile_productView_screen.dart';
 final productSearchProvider=StateProvider<String>((ref) => '',);
+
 class WebProductScreen extends ConsumerStatefulWidget {
   const WebProductScreen({
     super.key,
@@ -21,23 +23,7 @@ class WebProductScreen extends ConsumerStatefulWidget {
 }
 
 class _WebProductScreenState extends ConsumerState<WebProductScreen> {
-  Future<void> sendWhatsAppMessage({
-    required String imageUrl,
-    required String productName,
-    required String description,
-  }) async {
-    final message = Uri.encodeComponent(
-      "$productName\n$description\n I want this product: $imageUrl",
-    );
 
-    final whatsappUrl = "https://wa.me/919747941805?text=$message";
-
-    if (await canLaunch(whatsappUrl)) {
-      await launch(whatsappUrl);
-    } else {
-      throw "Could not launch $whatsappUrl";
-    }
-  }
 
 
   @override
@@ -126,6 +112,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
           child: Consumer(
             builder: (context,ref,child) {
               return ref.watch(productStreamProvider(ref.watch(productSearchProvider))).when(data: (data) {
+                print('11111111111');
                 return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 1,
@@ -143,7 +130,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                         padding: EdgeInsets.only(
                             top: h * 0.01, left: w * 0.01, right: w * 0.01),
                         child: Container(
-                          height: h * 0.5,
+                          height: h * 0.52,
                           width: w * 0.15,
                           decoration: BoxDecoration(
                             boxShadow: const [
@@ -169,7 +156,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  height: w<=1062?h*0.22:h * 0.25,
+                                  height: w<=1062?h*0.22:h * 0.23,
                                   decoration: BoxDecoration(
                                       borderRadius:
                                       BorderRadius.circular(w * 0.02)),
@@ -189,7 +176,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                               // SizedBox(height: h*0.02,),
                               SizedBox(
                                 width: w ,
-                                height: h * 0.03,
+                                height: h * 0.025,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [

@@ -12,15 +12,29 @@ class Productrepository{
       _firestore.collection(FirebaseConstants.products);
   
   Stream<List<ProductModel>> productStream({required String search}) {
-    return _products.where('delete',isEqualTo: false).where('search',arrayContains: search..toUpperCase().trim())
-        .snapshots()
-        .map((event) {
-      List<ProductModel> leave = [];
-      for (QueryDocumentSnapshot i in event.docs) {
-        leave.add(ProductModel.fromMap(i.data() as Map<String,dynamic>));
-      }
-      return leave;
-    });
+    if(search.isNotEmpty) {
+      return _products.where('delete', isEqualTo: false).where(
+          'search', arrayContains: search..toUpperCase().trim())
+          .snapshots()
+          .map((event) {
+        List<ProductModel> leave = [];
+        for (QueryDocumentSnapshot i in event.docs) {
+          leave.add(ProductModel.fromMap(i.data() as Map<String, dynamic>));
+        }
+        return leave;
+      });
+    }else{
+      return _products.where('delete', isEqualTo: false)
+
+          .snapshots()
+          .map((event) {
+        List<ProductModel> leave = [];
+        for (QueryDocumentSnapshot i in event.docs) {
+          leave.add(ProductModel.fromMap(i.data() as Map<String, dynamic>));
+        }
+        return leave;
+      });
+    }
   }
 
   Stream<List<ProductModel>> productSliderStream() {

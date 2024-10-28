@@ -196,7 +196,7 @@ Check it out here: $deepLink/$productId
                     // const discount = '30% off';
                     await shareEvent(context: context,
                     productDescription: widget.productModel.description,productName: widget.productModel.productname,
-                    image:widget.productModel.image,
+                    image:AssetConstant.mac,
                     productId:widget.productModel.productId,);
                     // Share the product details using Share Plus
                     // Share.share(
