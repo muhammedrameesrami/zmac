@@ -13,5 +13,7 @@ class AssetConstant{
   static const groupDevice="assets/images/groupdevice.png";
   static const ourMission="assets/images/ourMission.jpg";
   static const ourVision="assets/images/ourVision.jpg";
+  static const macBook="assets/images/macbook.jpg";
+  static const ipods="assets/images/ipods.jpg";
 
 }

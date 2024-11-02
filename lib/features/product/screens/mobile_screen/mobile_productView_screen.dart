@@ -102,7 +102,7 @@ Check it out here: $deepLink/$productId
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-         widget.productModel.productname,
+         widget.productModel.productName,
           style: GoogleFonts.roboto(
               color: Colors.black, fontWeight: FontWeight.bold),
         ),
@@ -122,10 +122,10 @@ Check it out here: $deepLink/$productId
                   enlargeCenterPage: true,
                   autoPlay: true,
                 ),
-                items: _imageUrls.map((imageUrl) {
+                items: widget.productModel.multipleImages.map((imageUrl) {
                   return Builder(
                     builder: (BuildContext context) {
-                      return Image.asset(
+                      return Image.network(
                         imageUrl,
                         fit: BoxFit.fill,
                         // width: double.infinity,
@@ -137,7 +137,7 @@ Check it out here: $deepLink/$productId
               const SizedBox(height: 20),
               // Product Name
               Text(
-              widget.productModel.productname,
+              widget.productModel.productName,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -195,7 +195,7 @@ Check it out here: $deepLink/$productId
                     // const discountedPrice = '₹ 150000';
                     // const discount = '30% off';
                     await shareEvent(context: context,
-                    productDescription: widget.productModel.description,productName: widget.productModel.productname,
+                    productDescription: widget.productModel.description,productName: widget.productModel.productName,
                     image:AssetConstant.mac,
                     productId:widget.productModel.productId,);
                     // Share the product details using Share Plus

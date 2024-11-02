@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:product_project/core/constant/firebaseconstants.dart';
 import 'package:product_project/models/productModel.dart';
 
+import '../../../models/HomesliderModel.dart';
+
 final productRepositoryProvider=Provider((ref) => Productrepository(firestore: ref.read(firestoreProvider)),);
 class Productrepository{
   final FirebaseFirestore _firestore;
@@ -10,6 +12,9 @@ class Productrepository{
 
   CollectionReference get _products =>
       _firestore.collection(FirebaseConstants.products);
+
+  CollectionReference get _homeslider =>
+      _firestore.collection(FirebaseConstants.homeslider);
   
   Stream<List<ProductModel>> productStream({required String search}) {
     if(search.isNotEmpty) {
@@ -17,28 +22,28 @@ class Productrepository{
           'search', arrayContains: search..toUpperCase().trim())
           .snapshots()
           .map((event) {
-        List<ProductModel> leave = [];
+        List<ProductModel> products = [];
         for (QueryDocumentSnapshot i in event.docs) {
-          leave.add(ProductModel.fromMap(i.data() as Map<String, dynamic>));
+          products.add(ProductModel.fromMap(i.data() as Map<String, dynamic>));
         }
-        return leave;
+        return products;
       });
     }else{
       return _products.where('delete', isEqualTo: false)
 
           .snapshots()
           .map((event) {
-        List<ProductModel> leave = [];
+        List<ProductModel> products = [];
         for (QueryDocumentSnapshot i in event.docs) {
-          leave.add(ProductModel.fromMap(i.data() as Map<String, dynamic>));
+          products.add(ProductModel.fromMap(i.data() as Map<String, dynamic>));
         }
-        return leave;
+        return products;
       });
     }
   }
 
   Stream<List<ProductModel>> productSliderStream() {
-    return _products.where('delete',isEqualTo: false).where('latestproduct',isEqualTo: true)
+    return _products.where('delete',isEqualTo: false).where('latestProduct',isEqualTo: true)
         .snapshots()
         .map((event) {
       List<ProductModel> leave = [];
@@ -46,6 +51,18 @@ class Productrepository{
         leave.add(ProductModel.fromMap(i.data() as Map<String,dynamic>));
       }
       return leave;
+    });
+  }
+
+  Stream<List<HomeSliderModel>> SliderStream() {
+    return _homeslider
+        .snapshots()
+        .map((event) {
+      List<HomeSliderModel> slider = [];
+      for (QueryDocumentSnapshot i in event.docs) {
+        slider.add(HomeSliderModel.fromMap(i.data() as Map<String,dynamic>));
+      }
+      return slider;
     });
   }
 

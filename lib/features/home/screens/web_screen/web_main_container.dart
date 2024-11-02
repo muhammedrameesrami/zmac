@@ -150,13 +150,13 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(w * 0.02)),
-                                      child: Center(child: Image.asset(AssetConstant.mac,fit: BoxFit.contain,))),
+                                      child: Center(child: Image.network(data[index].image,fit: BoxFit.contain,))),
                                   // SizedBox(height: h*0.007,),
                                   SizedBox(
                                     height: h * 0.05,width: w,
                                     child: Center(
                                       child: Text(
-                                        data[index].productname,
+                                        data[index].productName,
                                         style: GoogleFonts.roboto(
                                             fontWeight: FontWeight.w700,
                                             fontSize: w * 0.01),
@@ -214,7 +214,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                                       //   throw 'Could not launch $url';
                                       //
                                       // }
-                                      sendWhatsAppMessage(imageUrl: data[index].image,description:  data[index].description,productName:  data[index].productname);
+                                      sendWhatsAppMessage(imageUrl: data[index].image,description:  data[index].description,productName:  data[index].productName);
                                     },
                                       child: Container(
                                         height: h * .04,
@@ -257,25 +257,32 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
           SizedBox(
             height: isTab ? h * 0.4 : w * 0.4,
             width: double.infinity, // Ensure the container takes full width
-            child: CarouselSlider.builder(itemCount: 3,itemBuilder: (context, index, realIndex) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                ),child: Image.asset(imageList[index],fit: BoxFit.contain,),
-              );
-            },
+            child: Consumer(
+              builder: (context,ref,child) {
+                return ref.watch(homeSliderStreamProvider).when(data: (data) {
+                  return CarouselSlider.builder(itemCount: data.length,itemBuilder: (context, index, realIndex) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                      ),child: Image.network(data[index].imageurl,fit: BoxFit.contain,),
+                    );
+                  },
 
-              options: CarouselOptions(
-                enableInfiniteScroll: true,
-                initialPage: 0,
-                scrollDirection: Axis.horizontal,
-                autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                autoPlay: true,
-                aspectRatio: 2.4,
-                viewportFraction: 0.9,
-                enlargeCenterPage: true,
-              ),
+                    options: CarouselOptions(
+                      enableInfiniteScroll: true,
+                      initialPage: 0,
+                      scrollDirection: Axis.horizontal,
+                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      autoPlay: true,
+                      aspectRatio: 2.4,
+                      viewportFraction: 0.9,
+                      enlargeCenterPage: true,
+                    ),
+                  );
+                }, error: (error, stackTrace) => SelectableText(error.toString()), loading: () => const Loader(),);
+
+              }
             ),
           ),
           // SizedBox(height: isTab?h*0.01:w*0.01), // Add spacing between the carousel and the next section
@@ -306,46 +313,54 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
             ),
           ),
           SizedBox(height: isTab ? h * 0.05 : w * 0.05),
-          Text('New Features',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
+          Text('Latest Products',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
           SizedBox(height: isTab?h*0.02:w*0.02,),
           SizedBox(
             height: isTab ? h * 0.4 : w * 0.5,
             width: w, // Ensure the container takes full width
             child: Stack(alignment: Alignment.center,children: [
-             ListView.builder(itemCount: 5,scrollDirection: Axis.horizontal,controller:controller ,
-                 itemBuilder: (context, index) {
-                   return Padding(
-                     padding:EdgeInsets.symmetric(vertical: h*0.01,horizontal: w*0.01),
-                     child: Container(width: isTab?w*0.3:h*0.3,
-                       height: h * 0.4,
-                       decoration: BoxDecoration(
-                         image: const DecorationImage(
-                           fit: BoxFit.cover,
-                           image: AssetImage(AssetConstant.groupDevice),
-                         ),
-                         // color: Colors.black12,
-                         borderRadius: BorderRadius.circular(w * 0.02),
-                         border: Border.all(color: Colors.black38),
-                       ),
-                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: [
-                           Text(
-                             'kkdk',
-                             style: GoogleFonts.roboto(
-                               fontSize: isTab ? h * 0.03 : w * 0.02,
-                               fontWeight: FontWeight.bold,
-                               color: Colors.black,
+             Consumer(
+               builder: (context,ref,child) {
+                 return ref.watch(productSliderStreamProvider).when(data: (data) {
+                   return ListView.builder(itemCount: data.length,
+                     scrollDirection: Axis.horizontal,controller:controller ,
+                     itemBuilder: (context, index) {
+                       return Padding(
+                         padding:EdgeInsets.symmetric(vertical: h*0.01,horizontal: w*0.01),
+                         child: Container(width: isTab?w*0.3:h*0.3,
+                           height: h * 0.4,
+                           decoration: BoxDecoration(
+                             image:  DecorationImage(
+                               fit: BoxFit.cover,
+                               image: NetworkImage(data[index].image),
                              ),
+                             // color: Colors.black12,
+                             borderRadius: BorderRadius.circular(w * 0.02),
+                             border: Border.all(color: Colors.black38),
                            ),
+                           child: Column(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             crossAxisAlignment: CrossAxisAlignment.center,
+                             children: [
+                               Text(
+                               data[index].productName,
+                                 style: GoogleFonts.roboto(
+                                   fontSize: isTab ? h * 0.03 : w * 0.02,
+                                   fontWeight: FontWeight.bold,
+                                   color: Colors.black,
+                                 ),
+                               ),
 
-                         ],
-                       ),
-                     ),
+                             ],
+                           ),
+                         ),
+                       );
+                     },
+
                    );
-             },
+                 }, error: (error, stackTrace) => SelectableText(error.toString()), loading: () => const Loader(),);
 
+               }
              ),
               Positioned(
                 left: 10, // Positioning the next arrow
@@ -369,23 +384,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
           ),
           /// company things
 
-          SizedBox(height: isTab ? h * 0.05 : w * 0.05),
-          SizedBox(
-            width: w,
-            child: Wrap(alignment: WrapAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _rowContainer(
-                    'TOTAL SALES', '120', AssetConstant.mac,Colors.black),
-                SizedBox(width: w * 0.02), // Small space between containers
-                _rowContainer('TOTAL PRODUCTS', '1200',
-                    AssetConstant.iPad,Pallete.whiteColor  ),
-                SizedBox(width: w * 0.02), // Small space between containers
-                _rowContainer(
-                    'HAPPY CUSTOMER', '120', AssetConstant.groupDevice,Colors.black),
-              ],
-            ),
-          ),
+
 
           SizedBox(height: isTab ? h * 0.05 : w * 0.05),
           Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),

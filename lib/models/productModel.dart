@@ -4,22 +4,24 @@ class ProductModel {
   String description;
   String image;
   bool delete;
-  bool latestproduct;
+  bool latestProduct;
   String ogprice;
-  String productname;
+  String productName;
   List search;
   String showprice;
   String productId;
+  List multipleImages;
 
   ProductModel({
 required this.search,
 required this.delete,
 required this.description,
 required this.image,
-required this.latestproduct,
+required this.latestProduct,
 required this.ogprice,
-required this.productname,
+required this.productName,
 required this.showprice,
+required this.multipleImages,
     required this.productId,
   });
 
@@ -27,20 +29,21 @@ required this.showprice,
     String? description,
     String ?image,
     bool ?delete,
-    bool? latestproduct,
+    bool? latestProduct,
     String ?ogprice,
-    String? productname,
+    String? productName,
     List ?search,
     String ?showprice,
     String?productId,
+    List ?multipleImages,
   }) {
-    return ProductModel(
+    return ProductModel(multipleImages: multipleImages??this.multipleImages,
       image: image??this.image,
       delete: delete??this.delete,
       description: description??this.description,
-      latestproduct: latestproduct??this.latestproduct,
+      latestProduct: latestProduct??this.latestProduct,
       ogprice: ogprice??this.ogprice,
-      productname: productname??this.productname,
+      productName: productName??this.productName,
       search: search??this.search,
       showprice: showprice??this.showprice,
       productId: productId??this.productId,
@@ -51,13 +54,14 @@ required this.showprice,
     return {
      'showprice':showprice,
       'search':search,
-      'productname':productname,
+      'productName':productName,
       'ogprice':ogprice,
-      'latestproduct':latestproduct,
+      'latestProduct':latestProduct,
       'image':image,
       'description':description,
       'delete':delete,
       'productId':productId,
+      'multipleImages':multipleImages,
     };
   }
 
@@ -65,13 +69,14 @@ required this.showprice,
     return ProductModel(
     showprice: map['showprice']??'',
       search: map['search']??[],
-      productname: map['productname']??'',
+      productName: map['productName']??'',
       ogprice: map['ogprice']??'',
-      latestproduct: map['latestproduct']??false,
+      latestProduct: map['latestProduct']??false,
       description: map['description']??'',
       delete: map['delete']??false,
       image: map['image']??'',
       productId: map['productId']??'',
+      multipleImages: map['multipleImages']??[],
 
     );
   }

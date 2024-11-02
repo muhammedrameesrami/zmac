@@ -27,8 +27,8 @@ class WebAboutUsScreen extends StatelessWidget {
             Text('LOOKING FORWARD',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
 
 SizedBox(width: w,child: Wrap(alignment: WrapAlignment.center,children: [
-  _lookingForwardContainer('Our Mission','dsfskdfslkfldskflskdfslkfdls',AssetConstant.ourMission),
-  _lookingForwardContainer('Our Vision','sdfsf',AssetConstant.ourVision  ),
+  _lookingForwardContainer('Our Mission','To provide the freshest, most delicious apples, sourced from trusted growers, and delivered with care to every customer.',AssetConstant.ourMission),
+  _lookingForwardContainer('Our Vision','To be the premier destination for premium apples, delighting customers with exceptional quality, variety, and service.',AssetConstant.ourVision  ),
 ],),),
             SizedBox(height: h * 0.03),
             Text('OUR SUCCESS',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
@@ -40,13 +40,13 @@ SizedBox(width: w,child: Wrap(alignment: WrapAlignment.center,children: [
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _rowContainer(
-                      'TOTAL SALES', '120', AssetConstant.mac,Colors.black),
+                      'TOTAL SALES', '1000+', AssetConstant.macBook,Colors.black),
                   SizedBox(width: w * 0.02), // Small space between containers
-                  _rowContainer('TOTAL PRODUCTS', '1200',
+                  _rowContainer('TOTAL PRODUCTS', '2000+',
                       AssetConstant.iPad,Pallete.whiteColor  ),
                   SizedBox(width: w * 0.02), // Small space between containers
                   _rowContainer(
-                      'HAPPY CUSTOMER', '120', AssetConstant.groupDevice,Colors.black),
+                      'HAPPY CUSTOMER', '1000+', AssetConstant.ipods,Colors.white),
                 ],
               ),
             ),
@@ -208,7 +208,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
         height: h * 0.3,
         decoration: BoxDecoration(
           image: DecorationImage(
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             image: AssetImage(imagePath),
           ),
           // color: Colors.black12,
@@ -279,7 +279,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
       padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.01),
       child: Container(
         height: h * 0.3,
-        width: isTab ? w * 0.4 : w * 0.5,
+        width: isTab ? w * 0.4 : w * 0.8,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(w * 0.02),
@@ -299,17 +299,22 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                     Text(
                       title,
                       style: GoogleFonts.roboto(
-                        fontSize: isTab ? h * 0.03 : w * 0.05,
+                        fontSize: isTab ? h * 0.05 : w * 0.035,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                     SizedBox(height: h * 0.01),
-                    Text(
-                      description,
-                      style: GoogleFonts.roboto(
-                        fontSize: isTab ? h * 0.02 : w * 0.04,
-                        color: Colors.black54,
+                    Flexible(
+                      child: Text(
+                        description,
+                        style: GoogleFonts.roboto(
+                          fontSize: isTab ? h * 0.02 : w * 0.025,
+                          color: Colors.black54,
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis, // Truncates text on smaller screens
+                        maxLines: 3, // Limits the number of lines to avoid overflow
                       ),
                     ),
                   ],
@@ -338,7 +343,6 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
       ),
     );
   }
-
 
 
 }

@@ -8,4 +8,5 @@ final firestoreProvider = Provider<FirebaseFirestore>((ref) {
 
 class FirebaseConstants {
   static const products = "products";
+  static const homeslider = "homeslider";
 }

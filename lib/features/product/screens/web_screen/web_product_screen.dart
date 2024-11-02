@@ -25,7 +25,6 @@ class WebProductScreen extends ConsumerStatefulWidget {
 class _WebProductScreenState extends ConsumerState<WebProductScreen> {
 
 
-
   @override
   Widget build(BuildContext context) {
     // final isTab=w>h;
@@ -112,7 +111,6 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
           child: Consumer(
             builder: (context,ref,child) {
               return ref.watch(productStreamProvider(ref.watch(productSearchProvider))).when(data: (data) {
-                print('11111111111');
                 return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 1,
@@ -122,6 +120,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                   ),
                   itemCount: data.length, // Number of items in the grid
                   itemBuilder: (BuildContext context, int index) {
+
                     return GestureDetector(
                       onTap: () {
 
@@ -155,18 +154,23 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                   height: w<=1062?h*0.22:h * 0.23,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(w * 0.02)),
-                                  child: Center(child: Image.asset(AssetConstant.mac,fit: BoxFit.contain,))),
+                                child: Center(
+                                  child: data[index].image.isNotEmpty
+                                      ? Image.network(
+                                    data[index].image,
+                                    fit: BoxFit.contain,
+                                  )
+                                      : Icon(Icons.image_not_supported, size: 50, color: Colors.grey), // Placeholder for null or empty images
+                                ),
+                              ),
                               // SizedBox(height: h*0.007,),
                               SizedBox(
                                 height: h * 0.05,width: w,
                                 child: Center(
                                   child: Text(
-                                    data[index].productname,
+                                    data[index].productName,
                                     style: GoogleFonts.roboto(
                                         fontWeight: FontWeight.w700,
                                         fontSize: w * 0.01),
@@ -224,7 +228,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                                   //   throw 'Could not launch $url';
                                   //
                                   // }
-                                  sendWhatsAppMessage(imageUrl: data[index].image,description:  data[index].description,productName:  data[index].productname);
+                                  sendWhatsAppMessage(imageUrl: data[index].image,description:  data[index].description,productName:  data[index].productName);
                                 },
                                   child: Container(
                                     height: h * .04,

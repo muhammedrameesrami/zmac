@@ -176,13 +176,24 @@ class _MobileProductScreenState extends ConsumerState<MobileProductScreen> {
 
                                         borderRadius:
                                         BorderRadius.circular(w * 0.02)),
-                                    child: Center(child: Image.asset(AssetConstant.mac,fit: BoxFit.contain,))),
+                                    child: Center(
+                                child: data[index].image != null && data[index].image.isNotEmpty
+                                ? Image.network(
+                                data[index].image,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(Icons.broken_image, size: 50, color: Colors.grey); // Placeholder if image fails
+                                  },
+                                )
+                                  : Icon(Icons.image_not_supported, size: 50, color: Colors.grey), // Placeholder for null or empty images
+                        ),
+                      ),
                               ),
                               // SizedBox(height: h*0.007,),
                               Expanded(
                                 child: Center(
                                   child: Text(
-                                  data[index].productname,
+                                  data[index].productName,
                                     style: GoogleFonts.roboto(
                                         fontWeight: FontWeight.w700,
                                         fontSize:w>h?h*0.02:w*0.03),

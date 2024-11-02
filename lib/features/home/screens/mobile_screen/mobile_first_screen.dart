@@ -167,13 +167,13 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
 
                                               borderRadius:
                                               BorderRadius.circular(w * 0.02)),
-                                          child: Center(child: Image.asset(AssetConstant.mac,fit: BoxFit.contain,))),
+                                          child: Center(child: Image.network(data[index].image,fit: BoxFit.contain,))),
                                     ),
                                     // SizedBox(height: h*0.007,),
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          data[index].productname,
+                                          data[index].productName,
                                           style: GoogleFonts.roboto(
                                               fontWeight: FontWeight.w700,
                                               fontSize:w>h?h*0.02:w*0.03),
@@ -276,38 +276,45 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
               SizedBox(
                 height: isTab ? h * 0.4 : w * 0.5,
                 width: w, // Ensure the container takes full width
-                child: CarouselSlider.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index, realIndex) {
-                    return Consumer(
-                      builder: (context, ref, child) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            // image: DecorationImage(
-                            //   fit: BoxFit.cover, // Ensures the image covers the entire container
-                            //   image: AssetImage(imagePath),
-                            // ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Image.asset(
-                            imageList[index],
-                            fit: BoxFit.contain,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  options: CarouselOptions(
-                    enableInfiniteScroll: true,
-                    initialPage: 0,
-                    scrollDirection: Axis.horizontal,
-                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                    autoPlay: true,
-                    aspectRatio: 2.3,
-                    viewportFraction: 0.9,
-                    enlargeCenterPage: true,
-                  ),
+                child: Consumer(
+                  builder: (context,ref,child) {
+                    return ref.watch(homeSliderStreamProvider).when(data: (data) {
+                      return CarouselSlider.builder(
+                        itemCount: data.length,
+                        itemBuilder: (context, index, realIndex) {
+                          return Consumer(
+                            builder: (context, ref, child) {
+                              return Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                  // image: DecorationImage(
+                                  //   fit: BoxFit.cover, // Ensures the image covers the entire container
+                                  //   image: AssetImage(imagePath),
+                                  // ),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Image.network(
+                                  data[index].imageurl,
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        options: CarouselOptions(
+                          enableInfiniteScroll: true,
+                          initialPage: 0,
+                          scrollDirection: Axis.horizontal,
+                          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                          autoPlay: true,
+                          aspectRatio: 2.3,
+                          viewportFraction: 0.9,
+                          enlargeCenterPage: true,
+                        ),
+                      );
+                    }, error: (error, stackTrace) => SelectableText(error.toString()), loading: () => const Loader(),);
+
+                  }
                 ),
               ),
               // SizedBox(
@@ -321,7 +328,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                 child: Text(
                   'Welcome to Zmac Apple Solution',
                   style: GoogleFonts.roboto(fontWeight: FontWeight.bold,
-                      fontSize: isTab ? w * 0.02 : h * 0.025,
+                      fontSize: isTab ? w * 0.03 : h * 0.03,
                       color: Colors.black,
                       letterSpacing: 3),
                 ),
@@ -337,13 +344,13 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                     style: GoogleFonts.roboto(
                         fontSize: isTab ? h * 0.02 : w * 0.03,
                         color: Colors.black,
-                        letterSpacing: 1),
+                        letterSpacing: isTab?10:1),
                   ))),
               SizedBox(
                 height: isTab ? h * 0.03 : w * 0.05,
               ),
               Text(
-                'New Features',
+                'Latest Products',
                 style: GoogleFonts.roboto(
                     fontSize: isTab ? h * 0.03 : w * 0.06,
                     color: Colors.black,
@@ -358,43 +365,50 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    ListView.builder(
-                      itemCount: 5,
-                      scrollDirection: Axis.horizontal,
-                      controller: controller,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: h * 0.01, horizontal: w * 0.01),
-                          child: Container(
-                            width: isTab ? w * 0.3 : h * 0.3,
-                            height: h * 0.4,
-                            decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage(AssetConstant.groupDevice),
-                              ),
-                              // color: Colors.black12,
-                              borderRadius: BorderRadius.circular(w * 0.02),
-                              border: Border.all(color: Colors.black38),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'kkdk',
-                                  style: GoogleFonts.roboto(
-                                    fontSize: isTab ? h * 0.03 : w * 0.02,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                    Consumer(
+                      builder: (context,ref,child) {
+                        return ref.watch(productSliderStreamProvider).when(data: (data) {
+                          return ListView.builder(
+                            itemCount: data.length,
+                            scrollDirection: Axis.horizontal,
+                            controller: controller,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: h * 0.01, horizontal: w * 0.01),
+                                child: Container(
+                                  width: isTab ? w * 0.3 : h * 0.3,
+                                  height: h * 0.4,
+                                  decoration: BoxDecoration(
+                                    image:  DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(data[index].image),
+                                    ),
+                                    // color: Colors.black12,
+                                    borderRadius: BorderRadius.circular(w * 0.02),
+                                    border: Border.all(color: Colors.black38),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        data[index].productName,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: isTab ? h * 0.03 : w * 0.02,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                              );
+                            },
+                          );
+                        }, error: (error, stackTrace) => SelectableText(error.toString()), loading: () => const Loader(),);
+
+                      }
                     ),
                     Positioned(
                       left: 10, // Positioning the next arrow
@@ -419,23 +433,6 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
               ),
               SizedBox(
                 height: isTab ? h * 0.03 : w * 0.05,
-              ),
-              SizedBox(
-                width: w,
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _rowContainer(
-                        'TOTAL SALES', '120', AssetConstant.mac, Colors.black),
-                    SizedBox(width: w * 0.02), // Small space between containers
-                    _rowContainer('TOTAL PRODUCTS', '1200', AssetConstant.iPad,
-                        Pallete.whiteColor),
-                    SizedBox(width: w * 0.02), // Small space between containers
-                    _rowContainer('HAPPY CUSTOMER', '120',
-                        AssetConstant.groupDevice, Colors.black),
-                  ],
-                ),
               ),
 
               SizedBox(
