@@ -93,11 +93,14 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
 
-          const url = 'https://wa.me/919995245426 ';
+          const url = "https://wa.me/919995245426";
+
           if (await canLaunchUrl(Uri.parse(url))) {
-          await launchUrl(Uri.parse(url));
+            await launchUrl(Uri.parse(url));
           } else {
-          throw 'Could not launch $url';
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('WhatsApp is not installed on this device')),
+            );
           }
         },child: Image.asset(AssetConstant.watsApp),),
     ));

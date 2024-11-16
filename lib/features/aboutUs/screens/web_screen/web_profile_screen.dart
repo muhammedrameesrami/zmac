@@ -27,8 +27,8 @@ class WebAboutUsScreen extends StatelessWidget {
             Text('LOOKING FORWARD',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
 
 SizedBox(width: w,child: Wrap(alignment: WrapAlignment.center,children: [
-  _lookingForwardContainer('Our Mission','To provide the freshest, most delicious apples, sourced from trusted growers, and delivered with care to every customer.',AssetConstant.ourMission),
-  _lookingForwardContainer('Our Vision','To be the premier destination for premium apples, delighting customers with exceptional quality, variety, and service.',AssetConstant.ourVision  ),
+  _lookingForwardContainer('Our Mission','Our mission is to deliver innovative and high-quality Apple products and services, sourced from trusted suppliers, and provided with care to every customer. We are dedicated to ensuring customer satisfaction by meeting their needs with cutting-edge technology and exceptional support.',AssetConstant.ourMission),
+  _lookingForwardContainer('Our Vision','To be the premier destination for premium Apple products, delivering exceptional quality, unmatched variety, and outstanding service to inspire and empower our customers.',AssetConstant.ourVision  ),
 ],),),
             SizedBox(height: h * 0.03),
             Text('OUR SUCCESS',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
@@ -40,19 +40,19 @@ SizedBox(width: w,child: Wrap(alignment: WrapAlignment.center,children: [
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _rowContainer(
-                      'TOTAL SALES', '1000+', AssetConstant.macBook,Colors.black),
+                      'TOTAL SALES', '10K+', AssetConstant.macBook,Colors.black),
                   SizedBox(width: w * 0.02), // Small space between containers
                   _rowContainer('TOTAL PRODUCTS', '2000+',
                       AssetConstant.iPad,Pallete.whiteColor  ),
                   SizedBox(width: w * 0.02), // Small space between containers
                   _rowContainer(
-                      'HAPPY CUSTOMER', '1000+', AssetConstant.ipods,Colors.white),
+                      'HAPPY CUSTOMER', '10K+', AssetConstant.ipods,Colors.white),
                 ],
               ),
             ),
 
             SizedBox(height: isTab ? w * 0.01 : h * 0.01),
-Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
+Text('PRODUCT AND SALE SERVICE',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
             SizedBox(
               width: w,
               child: Wrap(crossAxisAlignment: WrapCrossAlignment.center,
@@ -100,7 +100,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                     alignment: WrapAlignment.center,
                     children: [
                       InkWell(onTap: () async {
-                        const url = "https://wa.me/<number> ";
+                        const url = "https://www.instagram.com/zmac.calicut/";
                         if (await canLaunchUrl(Uri.parse(url))) {
                         await launchUrl(Uri.parse(url));
                         } else {
@@ -114,13 +114,16 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                       ),
                       SizedBox(width: w * 0.02),
                       InkWell(onTap: () async {
-                        const url = "https://wa.me/<number> ";
-                        if (await canLaunchUrl(Uri.parse(url))) {
-                        await launchUrl(Uri.parse(url));
-                        } else {
-                        throw 'Could not launch $url';
+                        const url = "https://wa.me/919995245426";
 
+                        if (await canLaunchUrl(Uri.parse(url))) {
+                          await launchUrl(Uri.parse(url));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('WhatsApp is not installed on this device')),
+                          );
                         }
+
                       },
                         child: CircleAvatar(
                             backgroundImage: const AssetImage(AssetConstant.watsApp),
@@ -128,7 +131,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                       ),
                       SizedBox(width: w * 0.02),
                       InkWell(onTap: () async {
-                        const url = "https://wa.me/<number> ";
+                        const url = "https://www.instagram.com/zmac.calicut/ ";
                         if (await canLaunchUrl(Uri.parse(url))) {
                         await launchUrl(Uri.parse(url));
                         } else {
@@ -163,7 +166,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                     ),
                   ),
                   InkWell(onTap: () async {
-                    const url = "https://wa.me/<number> ";
+                    const url = "https://sidsimages@gmail.com";
                     if (await canLaunchUrl(Uri.parse(url))) {
                     await launchUrl(Uri.parse(url));
                     } else {
@@ -206,7 +209,12 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
       child: Container(
         width: isTab?w*0.3:h*0.6,
         height: h * 0.3,
-        decoration: BoxDecoration(
+        decoration: BoxDecoration(boxShadow: [BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          blurRadius: 4,
+          spreadRadius: 2,
+          offset: const Offset(0, 4),
+        ),],
           image: DecorationImage(
             fit: BoxFit.cover,
             image: AssetImage(imagePath),
@@ -246,7 +254,14 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
       padding:EdgeInsets.symmetric(vertical: h*0.01,horizontal: w*0.01),
       child: Container(width: isTab?w*0.3:h*0.6,
         height: h * 0.3,
-        decoration: BoxDecoration(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 4,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
+          ),
+        ],
           image: DecorationImage(
             fit: BoxFit.cover,
             image: AssetImage(imagePath),
@@ -278,12 +293,19 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
     return Padding(
       padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.01),
       child: Container(
-        height: h * 0.3,
+        height: isTab?h * 0.38:w*0.3,
         width: isTab ? w * 0.4 : w * 0.8,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(w * 0.02),
-          border: Border.all(color: Colors.black38),
+          border: Border.all(color: Colors.black38),boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 4,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
+          ),
+        ]
         ),
         child: Row(
           children: [
@@ -301,8 +323,7 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                       style: GoogleFonts.roboto(
                         fontSize: isTab ? h * 0.05 : w * 0.035,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                        color: Colors.black,   ),
                     ),
                     SizedBox(height: h * 0.01),
                     Flexible(
@@ -310,11 +331,11 @@ Text('OUR SERVICES',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.03 : w * 0
                         description,
                         style: GoogleFonts.roboto(
                           fontSize: isTab ? h * 0.02 : w * 0.025,
-                          color: Colors.black54,
+                          color: Colors.black,
                         ),
                         softWrap: true,
-                        overflow: TextOverflow.ellipsis, // Truncates text on smaller screens
-                        maxLines: 3, // Limits the number of lines to avoid overflow
+                        // overflow: TextOverflow.ellipsis, // Truncates text on smaller screens
+                       // Limits the number of lines to avoid overflow
                       ),
                     ),
                   ],

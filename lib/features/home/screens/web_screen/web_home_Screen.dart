@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:product_project/core/constant/asset_constant.dart';
 import 'package:product_project/features/home/screens/web_screen/web_main_container.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constant/variables.dart';
 import '../../../../core/theme/pallete.dart';
@@ -59,6 +60,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                     ref.read(taBarIndexProvider.notifier).update(
                           (state) => index,
                     );
+
                   },
                   child: AnimatedContainer(
                     width: w * 0.25,
@@ -93,7 +95,17 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
       /// chat with watsapp
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(elevation: 1,
-          onPressed: () {},
+          onPressed: () async {
+            const url = "https://wa.me/919995245426";
+
+            if (await canLaunchUrl(Uri.parse(url))) {
+              await launchUrl(Uri.parse(url));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('WhatsApp is not installed on this device')),
+              );
+            }
+          },
           child: Image.asset(AssetConstant.watsApp,fit: BoxFit.cover,)),
     ));
 

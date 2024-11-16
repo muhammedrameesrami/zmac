@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +10,7 @@ import 'package:product_project/features/product/screens/web_screen/web_product_
 import 'package:url_launcher/url_launcher.dart';
 
 // import '../../../../core/constant/global_names.dart';
+import '../../../../core/common/function.dart';
 import '../../../../core/constant/variables.dart';
 import '../../../../core/theme/pallete.dart';
 import 'mobile_productView_screen.dart';
@@ -137,7 +139,7 @@ class _MobileProductScreenState extends ConsumerState<MobileProductScreen> {
                     return GestureDetector(
                       onTap: () {
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProductViewScreen(productModel: data[index],),));
+                        Navigator.push(context, CupertinoPageRoute(builder: (context) => ProductViewScreen(productModel: data[index],),));
                       },
                       child: Padding(
                         padding: EdgeInsets.only(
@@ -232,8 +234,8 @@ class _MobileProductScreenState extends ConsumerState<MobileProductScreen> {
                                     SizedBox(
                                       width: w * 0.01,
                                     ),
-                                    Text(
-                                      '${((int.parse(data[index].ogprice) - int.parse(data[index].showprice)) / int.parse(data[index].ogprice) * 100).round()}% off',
+                                    Text(' 80% Off',
+                                      // '${((int.parse(data[index].ogprice) - int.parse(data[index].showprice)) / int.parse(data[index].ogprice) * 100).round()}% off',
                                       style: GoogleFonts.roboto(color: Colors.black,
                                           fontWeight: FontWeight.w500,
                                           fontSize:isTab?h*0.02: w * 0.03),
@@ -244,13 +246,8 @@ class _MobileProductScreenState extends ConsumerState<MobileProductScreen> {
                               // SizedBox(height: h*0.008,),
                               Expanded(
                                 child: InkWell(onTap: () async{
+                                  sendWhatsAppMessage(imageUrl: data[index].image,description:  data[index].description,productName:  data[index].productName);
 
-                                  const url = 'https://wa.me/<number> ';
-                                  if (await canLaunchUrl(Uri.parse(url))) {
-                                    await launchUrl(Uri.parse(url));
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
 
                                 },
                                   child: Container(

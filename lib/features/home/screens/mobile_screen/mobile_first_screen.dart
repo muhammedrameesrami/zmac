@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -130,8 +131,8 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                               ref.watch(homeSearchProvider)))
                           .when(
                             data: (data) {
-                              return Container(
-                                height: h * 0.8,
+                              return data.isEmpty?SizedBox(height:h*0.85,width:w,child: const Center(child: Text('NO PRODUCTS'),)): Container(
+                                height: h * 0.85,
                                 width: w,
                                 child: GridView.builder(
                                   gridDelegate:
@@ -151,12 +152,9 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                                       onTap: () {
                                         Navigator.push(
                                             context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProductViewScreen(
-                                                productModel: data[index],
-                                              ),
-                                            ));
+                                            CupertinoPageRoute(builder: (context) =>  ProductViewScreen(
+                                              productModel: data[index],
+                                            ),));
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.only(
@@ -390,8 +388,8 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                 child: Text(
                   'Welcome to Zmac Apple Solution',
                   style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.bold,
-                      fontSize: isTab ? w * 0.03 : h * 0.03,
+                      fontWeight: FontWeight.w500,
+                      fontSize: isTab ? w * 0.032 : h * 0.03,
                       color: Colors.black,
                       letterSpacing: 3),
                 ),
@@ -403,8 +401,8 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                   width: w,
                   child: Center(
                       child: Text(
-                    "Welcome to Zmac Apple Solution Your trusted Apple product expert in Asokpuram, Calicut! With over 1000 satisfied customers, we specialize in the sale of high-quality laptops and offer expert chip-level servicing for all Apple devices. Whether you're looking to buy the latest MacBook or need professional repairs, our experienced team is dedicated to delivering the best in technology solutions. Visit us today and experience reliable service that keeps your Apple products performing at their peak.",
-                    style: GoogleFonts.roboto(
+                        "Zmac Apple Solution, based in Calicut,Kerala specializes in certified pre-owned MacBooks, with a strong reputation built over five years and more than 10,000 satisfied customers. Each MacBook comes with a 1-year service warranty, ensuring quality and dependable support for buyers. ZMac's rigorous quality checks and customer-first approach make it a trusted choice for those seeking reliable, affordable Apple MacBooks in Calicut and beyond."
+                        ,style: GoogleFonts.roboto(
                         fontSize: isTab ? h * 0.02 : w * 0.03,
                         color: Colors.black,
                         letterSpacing: isTab ? 10 : 1),
@@ -511,7 +509,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                 height: isTab ? h * 0.03 : w * 0.05,
               ),
               Text(
-                'OUR SERVICES',
+                'PRODUCT AND SALE SERVICE',
                 style: GoogleFonts.roboto(
                     fontSize: isTab ? h * 0.03 : w * 0.06,
                     color: Colors.black,
@@ -586,10 +584,13 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                         InkWell(
                           onTap: () async {
                             const url = "https://wa.me/919995245426";
+
                             if (await canLaunchUrl(Uri.parse(url))) {
                               await launchUrl(Uri.parse(url));
                             } else {
-                              throw 'Could not launch $url';
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('WhatsApp is not installed on this device')),
+                              );
                             }
                           },
                           child: CircleAvatar(
@@ -728,7 +729,12 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
       child: Container(
         width: isTab ? w * 0.4 : h * 0.4,
         height: h * 0.3,
-        decoration: BoxDecoration(
+        decoration: BoxDecoration(boxShadow: [BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          blurRadius: 4,
+          spreadRadius: 2,
+          offset: const Offset(0, 4),
+        ),],
           image: DecorationImage(
             fit: BoxFit.cover,
             image: AssetImage(imagePath),

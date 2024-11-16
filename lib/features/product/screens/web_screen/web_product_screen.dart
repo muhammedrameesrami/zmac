@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -124,7 +125,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                     return GestureDetector(
                       onTap: () {
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProductViewScreen(productModel: data[index],),));                },
+                        Navigator.push(context, CupertinoPageRoute(builder: (context) => ProductViewScreen(productModel: data[index],),));                },
                       child: Padding(
                         padding: EdgeInsets.only(
                             top: h * 0.01, left: w * 0.01, right: w * 0.01),
@@ -209,8 +210,8 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                                     SizedBox(
                                       width: w * 0.008,
                                     ),
-                                    Text(
-                                      '${((int.parse(data[index].ogprice) - int.parse(data[index].showprice)) / int.parse(data[index].ogprice) * 100).round()}% off',
+                                    Text(' 80% Off',
+                                      // '${((int.parse(data[index].ogprice) - int.parse(data[index].showprice)) / int.parse(data[index].ogprice) * 100).round()}% off',
                                       style: GoogleFonts.roboto(color: Colors.black,
                                           fontWeight: FontWeight.w500,
                                           fontSize: w * 0.01),
