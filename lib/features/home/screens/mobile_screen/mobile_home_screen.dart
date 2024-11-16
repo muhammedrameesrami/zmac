@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:product_project/features/home/screens/web_screen/web_home_Screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constant/asset_constant.dart';
 import '../../../../core/constant/variables.dart';
@@ -90,8 +91,14 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
 
+          const url = 'https://wa.me/919995245426 ';
+          if (await canLaunchUrl(Uri.parse(url))) {
+          await launchUrl(Uri.parse(url));
+          } else {
+          throw 'Could not launch $url';
+          }
         },child: Image.asset(AssetConstant.watsApp),),
     ));
 
