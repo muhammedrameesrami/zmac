@@ -45,7 +45,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
             child: SizedBox(
                 height: h * 0.2,
                 child: Image.asset(
-                  AssetConstant.logo,
+                  AssetConstant.zmacLogo,
                   fit: BoxFit.fill,
                 ))),
         actions: [
@@ -101,9 +101,12 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
             if (await canLaunchUrl(Uri.parse(url))) {
               await launchUrl(Uri.parse(url));
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('WhatsApp is not installed on this device')),
-              );
+              if(mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text(
+                      'WhatsApp is not installed on this device')),
+                );
+              }
             }
           },
           child: Image.asset(AssetConstant.watsApp,fit: BoxFit.cover,)),

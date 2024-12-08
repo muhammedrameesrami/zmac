@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:product_project/core/common/loader.dart';
-import 'package:product_project/core/constant/asset_constant.dart';
 import 'package:product_project/features/product/controller/productController.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-// import '../../../../core/constant/global_names.dart';
 import '../../../../core/common/function.dart';
 import '../../../../core/constant/variables.dart';
 import '../../../../core/theme/pallete.dart';
@@ -24,6 +21,7 @@ class WebProductScreen extends ConsumerStatefulWidget {
 }
 
 class _WebProductScreenState extends ConsumerState<WebProductScreen> {
+  final TextEditingController searchController=TextEditingController();
 
 
   @override
@@ -43,13 +41,17 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
               children: [
 
                 SizedBox(
-                  height: h * .046,
+                  // height: h * .046,
                   width: w * .4,
-                  child: TextFormField(style: GoogleFonts.roboto(color: Colors.black),
+                  child: TextFormField(controller: searchController,
+                    style: GoogleFonts.roboto(color: Colors.black),
                     onChanged: (value) {
                     ref.read(productSearchProvider.notifier).update((state) => value.toUpperCase(),);
                     },
-                    decoration: InputDecoration(
+                    decoration: InputDecoration(suffixIcon: IconButton(icon: const Icon(Icons.close,color: Pallete.secondoryColor,),onPressed: () {
+                      ref.read(productSearchProvider.notifier).update((state) => '',);
+                      searchController.clear();
+                    },),
                       filled: true,
                       fillColor:Pallete.primaryColor,
                       contentPadding: const EdgeInsets.only(),
@@ -163,7 +165,7 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                                     data[index].image,
                                     fit: BoxFit.contain,
                                   )
-                                      : Icon(Icons.image_not_supported, size: 50, color: Colors.grey), // Placeholder for null or empty images
+                                      : const Icon(Icons.image_not_supported, size: 50, color: Colors.grey), // Placeholder for null or empty images
                                 ),
                               ),
                               // SizedBox(height: h*0.007,),
@@ -239,11 +241,11 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                                         color: Colors.black),
                                     child: Center(
                                       child: Text(
-                                        'Share Now ',
+                                        'BUY NOW',
                                         style: GoogleFonts.roboto(
                                           color: Pallete.whiteColor,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: w * .015,
+                                          fontSize: w * .01,
                                         ),
                                       ),
                                     ),
@@ -258,10 +260,8 @@ class _WebProductScreenState extends ConsumerState<WebProductScreen> {
                   },
                 );
               }, error: (error, stackTrace) {
-                print(stackTrace);
-                print(error);
                 return SelectableText(error.toString());
-              }, loading: () => Loader(),);
+              }, loading: () => const Loader(),);
 
             }
           ),

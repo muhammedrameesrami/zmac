@@ -9,11 +9,12 @@ class AssetConstant{
   static const chip="assets/images/chip.jpg";
   static const watsApp="assets/images/watsapp.png";
   static const mac="assets/images/mac.png";
-  static const iPad="assets/images/ipad.png";
-  static const groupDevice="assets/images/groupdevice.png";
+  static const iPad="assets/images/ipad.jpg";
   static const ourMission="assets/images/ourMission.jpg";
   static const ourVision="assets/images/ourVision.jpg";
   static const macBook="assets/images/macbook.jpg";
   static const ipods="assets/images/ipods.jpg";
+  static const map="assets/images/map.jpg";
+  static const zmacLogo="assets/images/zmacLogo.png";
 
 }

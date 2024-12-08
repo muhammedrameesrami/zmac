@@ -54,7 +54,7 @@ class Productrepository{
     });
   }
 
-  Stream<List<HomeSliderModel>> SliderStream() {
+  Stream<List<HomeSliderModel>> sliderStream() {
     return _homeslider
         .snapshots()
         .map((event) {

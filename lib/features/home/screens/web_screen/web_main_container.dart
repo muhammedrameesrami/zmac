@@ -16,7 +16,6 @@ import '../../../../core/constant/variables.dart';
 import '../../../../core/theme/pallete.dart';
 import '../../../product/controller/productController.dart';
 import '../../../product/screens/mobile_screen/mobile_productView_screen.dart';
-import '../../../product/screens/web_screen/web_product_screen.dart';
 
 final homeSearchProvider = StateProvider<String>(
   (ref) => '',
@@ -33,15 +32,12 @@ class WebMainContainer extends ConsumerStatefulWidget {
 
 class _WebMainContainerState extends ConsumerState<WebMainContainer> {
   final ScrollController controller = ScrollController();
+  final TextEditingController searchController=TextEditingController();
 
   // int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final imageList = [
-      AssetConstant.mac,
-      AssetConstant.iPad,
-      AssetConstant.groupDevice
-    ];
+
     void scrollForward() {
       if (controller.hasClients) {
         controller.animateTo(
@@ -55,7 +51,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
     }
 
     // Function to scroll backward
-    void _scrollBackward() {
+    void scrollBackward() {
       if (controller.hasClients) {
         controller.animateTo(
           controller.position.pixels -
@@ -79,9 +75,9 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
 
           /// slider section......................................
           SizedBox(
-            height: h * .046,
+            // height: h * .046,
             width: w * .4,
-            child: TextFormField(
+            child: TextFormField(controller: searchController,
               style: GoogleFonts.roboto(color: Colors.black),
               onChanged: (value) {
                 ref.read(homeSearchProvider.notifier).update(
@@ -90,7 +86,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
               },
               decoration: InputDecoration(
                 suffixIcon: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.close,
                     color: Colors.black,
                   ),
@@ -98,6 +94,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                     ref.read(homeSearchProvider.notifier).update(
                           (state) => '',
                         );
+                    searchController.clear();
                   },
                 ),
                 filled: true,
@@ -143,11 +140,11 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                               ? SizedBox(
                                   height: h * 0.85,
                                   width: w,
-                                  child: Center(
+                                  child: const Center(
                                     child: Text('NO PRODUCTS'),
                                   ),
                                 )
-                              : Container(
+                              : SizedBox(
                                   height: h * 0.85,
                                   width: w,
                                   child: GridView.builder(
@@ -325,14 +322,14 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                                                           color: Colors.black),
                                                       child: Center(
                                                         child: Text(
-                                                          'Share Now ',
+                                                          'BUY NOW',
                                                           style: GoogleFonts
                                                               .roboto(
                                                             color: Pallete
                                                                 .whiteColor,
                                                             fontWeight:
                                                                 FontWeight.w500,
-                                                            fontSize: w * .015,
+                                                            fontSize: w * .011,
                                                           ),
                                                         ),
                                                       ),
@@ -349,18 +346,16 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                                 );
                         },
                         error: (error, stackTrace) {
-                          print(stackTrace);
-                          print(error);
                           return SelectableText(error.toString());
                         },
-                        loading: () => Loader(),
+                        loading: () => const Loader(),
                       );
                 })
               : Text(
-                  'NEW ARRIVAL',
+                  'Welcome to Zmac Solution',
                   style: GoogleFonts.roboto(
                       letterSpacing: 3,
-                      fontSize: isTab ? h * 0.04 : w * 0.04,
+                      fontSize: isTab ? h * 0.03 : w * 0.04,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
@@ -427,14 +422,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Welcome to Zmac Apple Solution',
-                  style: GoogleFonts.roboto(
-                      fontSize: isTab ? h * 0.032 : w * 0.03,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      letterSpacing: 3),
-                ),
+
                 SizedBox(
                   height: isTab ? h * 0.02 : w * 0.02,
                 ),
@@ -450,9 +438,9 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
           ),
           SizedBox(height: isTab ? h * 0.05 : w * 0.05),
           Text(
-            'Latest Products',
+            'NEW ARRIVALS',
             style: GoogleFonts.roboto(
-                fontSize: isTab ? h * 0.03 : w * 0.06,
+                fontSize: isTab ? h * 0.028 : w * 0.06,
                 color: Colors.black,
                 fontWeight: FontWeight.bold),
           ),
@@ -460,7 +448,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
             height: isTab ? h * 0.02 : w * 0.02,
           ),
           SizedBox(
-            height: isTab ? h * 0.4 : w * 0.5,
+            height: isTab ? h * 0.55 : w * 0.55,
             width: w, // Ensure the container takes full width
             child: Stack(
               alignment: Alignment.center,
@@ -473,36 +461,40 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                             scrollDirection: Axis.horizontal,
                             controller: controller,
                             itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: h * 0.01, horizontal: w * 0.01),
-                                child: Container(
-                                  width: isTab ? w * 0.3 : h * 0.3,
-                                  height: h * 0.4,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(data[index].image),
+                              return InkWell(onTap: () {
+                                Navigator.push(context, CupertinoPageRoute(builder: (context) => ProductViewScreen(productModel: data[index]),));
+                              },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: h * 0.01, horizontal: w * 0.01),
+                                  child: Container(
+                                    width: isTab ? w * 0.3 : h * 0.3,
+                                    height: h * 0.55,
+                                    decoration: BoxDecoration(
+                                      // image: DecorationImage(
+                                      //   fit: BoxFit.cover,
+                                      //   image: NetworkImage(data[index].image),
+                                      // ),
+                                      // color: Colors.black12,
+                                      borderRadius:
+                                          BorderRadius.circular(w * 0.02),
+                                      border: Border.all(color: Colors.black38),
                                     ),
-                                    // color: Colors.black12,
-                                    borderRadius:
-                                        BorderRadius.circular(w * 0.02),
-                                    border: Border.all(color: Colors.black38),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        data[index].productName,
-                                        style: GoogleFonts.roboto(
-                                          fontSize: isTab ? h * 0.03 : w * 0.02,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+
+                                      children: [
+                                        Image.network(data[index].image,width: w*0.28,height: h*0.35,fit: BoxFit.contain,),
+                                        Text(
+                                          data[index].productName,
+                                          style: GoogleFonts.roboto(
+                                            fontSize: isTab ? h * 0.02 : w * 0.01,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -519,7 +511,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () {
-                      _scrollBackward();
+                      scrollBackward();
                     },
                   ),
                 ),
@@ -540,9 +532,9 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
 
           SizedBox(height: isTab ? h * 0.05 : w * 0.05),
           Text(
-            'PRODUCT AND SALE SERVICE',
+            'APPLE PRODUCT SALE AND SERVICE',
             style: GoogleFonts.roboto(
-                fontSize: isTab ? h * 0.03 : w * 0.06,
+                fontSize: isTab ? h * 0.028 : w * 0.06,
                 color: Colors.black,
                 fontWeight: FontWeight.bold),
           ),
@@ -556,13 +548,13 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
               alignment: WrapAlignment.center,
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _ServiceContainer(
+                _serviceContainer(
                     'CHIP LEVEL SERVICE', AssetConstant.chip, Colors.white),
                 SizedBox(width: w * 0.02), // Small space between containers
-                _ServiceContainer('CUSTOMER SUPPORT',
+                _serviceContainer('CUSTOMER SUPPORT',
                     AssetConstant.customerService, Pallete.whiteColor),
                 SizedBox(width: w * 0.02), // Small space between containers
-                _ServiceContainer(
+                _serviceContainer(
                     'SALES AND SERVICE', AssetConstant.service, Colors.white),
               ],
             ),
@@ -583,15 +575,16 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                     indent: w * 0.1,
                     endIndent: w * 0.1),
                 SizedBox(height: isTab ? h * 0.05 : w * 0.05),
-                Text(
-                  'Zmac',
-                  style: GoogleFonts.roboto(
-                      fontSize: isTab ? h * 0.04 : w * 0.06,
-                      fontWeight: FontWeight.bold,
-                      color: Pallete.secondoryColor,
-                      letterSpacing: 2),
-                ),
-                SizedBox(height: h * 0.01),
+                SizedBox(height: h*0.2,width: w*0.25,child: Image.asset(AssetConstant.zmacLogo),),
+                // Text(
+                //   'Zmac',
+                //   style: GoogleFonts.roboto(
+                //       fontSize: isTab ? h * 0.03 : w * 0.06,
+                //       fontWeight: FontWeight.bold,
+                //       color: Pallete.secondoryColor,
+                //       letterSpacing: 2),
+                // ),
+                SizedBox(height: h * 0.005),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -612,16 +605,33 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                     SizedBox(width: w * 0.02),
                     InkWell(
                       onTap: () async {
+                        const url = "https://www.facebook.com/zmac.calicut/";
+                        if (await canLaunchUrl(Uri.parse(url))) {
+                          await launchUrl(Uri.parse(url));
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      child: CircleAvatar(
+                          backgroundImage:
+                          const AssetImage(AssetConstant.facebook),
+                          radius: isTab ? h * 0.02 : w * 0.06),
+                    ),
+                    SizedBox(width: w * 0.02),
+                    InkWell(
+                      onTap: () async {
                         const url = "https://wa.me/919995245426";
 
                         if (await canLaunchUrl(Uri.parse(url))) {
                           await launchUrl(Uri.parse(url));
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    'WhatsApp is not installed on this device')),
-                          );
+                          if(context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      'WhatsApp is not installed on this device')),
+                            );
+                          }
                         }
                       },
                       child: CircleAvatar(
@@ -632,7 +642,8 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                     SizedBox(width: w * 0.02),
                     InkWell(
                       onTap: () async {
-                        const url = "https://www.instagram.com/zmac.calicut/";
+                        const url =
+                            "https://www.google.com/maps/place/ZMAC+Solutions+Calicut/@11.2660295,75.7775614,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba659be300376f9:0x1529f08de7fa8319!8m2!3d11.2660243!4d75.7801363!16s%2Fg%2F11svmp1zv6?authuser=0&entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D";
                         if (await canLaunchUrl(Uri.parse(url))) {
                           await launchUrl(Uri.parse(url));
                         } else {
@@ -641,48 +652,65 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                       },
                       child: CircleAvatar(
                           backgroundImage:
-                              const AssetImage(AssetConstant.facebook),
+                              const AssetImage(AssetConstant.map),
+                          radius: isTab ? h * 0.02 : w * 0.06),
+                    ),
+                    SizedBox(width: w * 0.02),
+                    Tooltip( message: "+919995245426",
+                      child: CircleAvatar(
+                          child: const Icon(
+                            Icons.phone,
+                            color: Colors.green,
+                          ),
                           radius: isTab ? h * 0.02 : w * 0.06),
                     ),
                   ],
                 ),
                 SizedBox(height: h * 0.02),
+                // InkWell(
+                //   onTap: () async {
+                //     const url =
+                //         "https://www.google.com/maps/place/ZMAC+Solutions+Calicut/@11.2660295,75.7775614,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba659be300376f9:0x1529f08de7fa8319!8m2!3d11.2660243!4d75.7801363!16s%2Fg%2F11svmp1zv6?authuser=0&entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D";
+                //     if (await canLaunchUrl(Uri.parse(url))) {
+                //       await launchUrl(Uri.parse(url));
+                //     } else {
+                //       throw 'Could not launch $url';
+                //     }
+                //   },
+                //   child: Text(
+                //     'Location: Pootholi Building, Kiliyanad Road, behind Rajendra Hospital, Kozhikode, Kerala 673001',
+                //     style: GoogleFonts.roboto(
+                //         letterSpacing: 2,
+                //         fontSize: isTab ? h * 0.02 : w * 0.06,
+                //         color: Colors.blue,
+                //         decoration: TextDecoration.underline,
+                //         decorationColor: Colors.blue),
+                //   ),
+                // ),
                 InkWell(
                   onTap: () async {
-                    const url =
-                        "https://www.google.com/maps/place/ZMAC+Solutions+Calicut/@11.2660295,75.7775614,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba659be300376f9:0x1529f08de7fa8319!8m2!3d11.2660243!4d75.7801363!16s%2Fg%2F11svmp1zv6?authuser=0&entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D";
+                    const url = "https://zmaccalicut@gmail.com";
                     if (await canLaunchUrl(Uri.parse(url))) {
                       await launchUrl(Uri.parse(url));
                     } else {
                       throw 'Could not launch $url';
                     }
                   },
-                  child: Text(
-                    'Location: Pootholi Building, Kiliyanad Road, behind Rajendra Hospital, Kozhikode, Kerala 673001',
+                  child: SelectableText(
+                    'Email: zmaccalicut@gmail.com',
                     style: GoogleFonts.roboto(
                         letterSpacing: 2,
-                        fontSize: isTab ? h * 0.02 : w * 0.06,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.blue),
-                  ),
-                ),
-                InkWell(
-                  onTap: () async {
-                    const url = "https://sidsimages@gmail.com ";
-                    if (await canLaunchUrl(Uri.parse(url))) {
-                      await launchUrl(Uri.parse(url));
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                  },
-                  child: Text(
-                    'Email: zmac@gmail.com',
-                    style: GoogleFonts.roboto(
-                        letterSpacing: 2,
-                        fontSize: isTab ? h * 0.02 : w * 0.06,
+                        fontSize: isTab ? h * 0.03 : w * 0.06,
                         color: Pallete.secondoryColor),
                   ),
+                ),
+                SizedBox(height: h * 0.01),
+                SelectableText(
+                  'Phone No: +919995245426',
+                  style: GoogleFonts.roboto(
+                      letterSpacing: 2,
+                      fontSize: isTab ? h * 0.025 : w * 0.06,
+                      color: Pallete.secondoryColor),
                 ),
                 SizedBox(height: h * 0.02),
                 Divider(
@@ -709,49 +737,7 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
     );
   }
 
-  Widget _rowContainer(
-      String title, String value, String imagePath, Color color) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.01),
-      child: Container(
-        width: isTab ? w * 0.4 : h * 0.4,
-        height: h * 0.4,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.contain,
-            image: AssetImage(imagePath),
-          ),
-          // color: Colors.black12,
-          borderRadius: BorderRadius.circular(w * 0.02),
-          border: Border.all(color: Colors.black38),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: GoogleFonts.roboto(
-                fontSize: isTab ? h * 0.03 : w * 0.02,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-            Text(
-              value,
-              style: GoogleFonts.roboto(
-                fontSize: w * 0.03,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _ServiceContainer(String title, String imagePath, Color color) {
+  Widget _serviceContainer(String title, String imagePath, Color color) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.01),
       child: Container(

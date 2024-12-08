@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,14 +25,11 @@ class MobileFirstScreen extends ConsumerStatefulWidget {
 
 class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
   final ScrollController controller = ScrollController();
-  // int _currentIndex = 0;
+  final TextEditingController srearchController=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final imageList = [
-      AssetConstant.mac,
-      AssetConstant.iPad,
-      AssetConstant.groupDevice
-    ];
+
     void scrollForward() {
       if (controller.hasClients) {
         controller.animateTo(
@@ -46,7 +43,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
     }
 
     // Function to scroll backward
-    void _scrollBackward() {
+    void scrollBackward() {
       if (controller.hasClients) {
         controller.animateTo(
           controller.position.pixels -
@@ -74,9 +71,9 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: isTab ? h * .045 : w * .06,
+                // height: isTab ? h * .045 : w * .06,
                 // width:isTab? w * .23:w*.6,
-                child: TextFormField(
+                child: TextFormField(controller: srearchController,
                   style: GoogleFonts.roboto(color: Colors.black),
                   onChanged: (value) {
                     ref.read(homeSearchProvider.notifier).update(
@@ -86,7 +83,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                   },
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.close,
                         color: Colors.black,
                       ),
@@ -94,6 +91,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                         ref.read(homeSearchProvider.notifier).update(
                               (state) => '',
                             );
+                        srearchController.clear();
                       },
                     ),
                     filled: true,
@@ -131,7 +129,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                               ref.watch(homeSearchProvider)))
                           .when(
                             data: (data) {
-                              return data.isEmpty?SizedBox(height:h*0.85,width:w,child: const Center(child: Text('NO PRODUCTS'),)): Container(
+                              return data.isEmpty?SizedBox(height:h*0.85,width:w,child: const Center(child: Text('NO PRODUCTS'),)): SizedBox(
                                 height: h * 0.85,
                                 width: w,
                                 child: GridView.builder(
@@ -290,7 +288,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                                                         color: Colors.black),
                                                     child: Center(
                                                       child: Text(
-                                                        'Share Now ',
+                                                        'BUY NOW',
                                                         style:
                                                             GoogleFonts.roboto(
                                                           color: Pallete
@@ -317,11 +315,11 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                             },
                             error: (error, stackTrace) =>
                                 SelectableText(error.toString()),
-                            loading: () => Loader(),
+                            loading: () => const Loader(),
                           );
                     })
                   : Text(
-                      'NEW ARRIVAL',
+                      'Welcome to Zmac Solution',
                       style: GoogleFonts.roboto(
                           fontSize: isTab ? h * 0.04 : w * 0.04,
                           color: Colors.black,
@@ -384,16 +382,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
               //       AssetConstant.logo,
               //       fit: BoxFit.fill,
               //     )),
-              Center(
-                child: Text(
-                  'Welcome to Zmac Apple Solution',
-                  style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.w500,
-                      fontSize: isTab ? w * 0.032 : h * 0.03,
-                      color: Colors.black,
-                      letterSpacing: 3),
-                ),
-              ),
+
               SizedBox(
                 height: isTab ? h * 0.018 : w * 0.018,
               ),
@@ -403,15 +392,15 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                       child: Text(
                         "Zmac Apple Solution, based in Calicut,Kerala specializes in certified pre-owned MacBooks, with a strong reputation built over five years and more than 10,000 satisfied customers. Each MacBook comes with a 1-year service warranty, ensuring quality and dependable support for buyers. ZMac's rigorous quality checks and customer-first approach make it a trusted choice for those seeking reliable, affordable Apple MacBooks in Calicut and beyond."
                         ,style: GoogleFonts.roboto(
-                        fontSize: isTab ? h * 0.02 : w * 0.03,
+                        fontSize: isTab ? h * 0.02 : w * 0.026,
                         color: Colors.black,
-                        letterSpacing: isTab ? 10 : 1),
+                        letterSpacing: isTab ? 10 : 4),
                   ))),
               SizedBox(
                 height: isTab ? h * 0.03 : w * 0.05,
               ),
               Text(
-                'Latest Products',
+                'NEW ARRIVALS',
                 style: GoogleFonts.roboto(
                     fontSize: isTab ? h * 0.03 : w * 0.06,
                     color: Colors.black,
@@ -420,8 +409,8 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
               SizedBox(
                 height: isTab ? h * 0.025 : w * 0.025,
               ),
-              SizedBox(
-                height: isTab ? h * 0.4 : w * 0.5,
+              Container(
+                height: isTab ? h * 0.52 : w * 0.75,
                 width: w, // Ensure the container takes full width
                 child: Stack(
                   alignment: Alignment.center,
@@ -434,41 +423,47 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                                 scrollDirection: Axis.horizontal,
                                 controller: controller,
                                 itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: h * 0.01,
-                                        horizontal: w * 0.01),
-                                    child: Container(
-                                      width: isTab ? w * 0.3 : h * 0.3,
-                                      height: h * 0.4,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image:
-                                              NetworkImage(data[index].image),
+                                  return InkWell(onTap: () {
+                                    Navigator.push(context, CupertinoPageRoute(builder: (context) => ProductViewScreen(productModel: data[index]),));
+                                  },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: h * 0.01,
+                                          horizontal: w * 0.01),
+                                      child: Container(
+                                        width: isTab ? w * 0.3 : h * 0.3,
+                                        height: h * 0.55,
+                                        decoration: BoxDecoration(
+                                          // image: DecorationImage(
+                                          //   fit: BoxFit.cover,
+                                          //   image:
+                                          //       NetworkImage(data[index].image),
+                                          // ),
+                                          // color: Colors.black12,
+                                          borderRadius:
+                                              BorderRadius.circular(w * 0.02),
+                                          border:
+                                              Border.all(color: Colors.black38),
                                         ),
-                                        // color: Colors.black12,
-                                        borderRadius:
-                                            BorderRadius.circular(w * 0.02),
-                                        border:
-                                            Border.all(color: Colors.black38),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            data[index].productName,
-                                            style: GoogleFonts.roboto(
-                                              fontSize:
-                                                  isTab ? h * 0.03 : w * 0.02,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
+                                        child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.network(data[index].image,fit: BoxFit.contain,height: h*0.3,width: w*.38,),
+                                            Container(height:isTab?h*0.1: w*0.1*0.5,
+                                              child: Center(
+                                                child: Text(
+                                                  data[index].productName,
+                                                  style: GoogleFonts.roboto(
+                                                    // fontSize:
+                                                    //     isTab ? h * 0.02 : w * 0.02,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   );
@@ -485,7 +480,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                       child: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         onPressed: () {
-                          _scrollBackward();
+                          scrollBackward();
                         },
                       ),
                     ),
@@ -509,7 +504,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                 height: isTab ? h * 0.03 : w * 0.05,
               ),
               Text(
-                'PRODUCT AND SALE SERVICE',
+                'APPLE PRODUCT SALE AND SERVICE',
                 style: GoogleFonts.roboto(
                     fontSize: isTab ? h * 0.03 : w * 0.06,
                     color: Colors.black,
@@ -525,13 +520,13 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                   alignment: WrapAlignment.center,
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _ServiceContainer(
+                    _serviceContainer(
                         'CHIP LEVEL SERVICE', AssetConstant.chip, Colors.white),
                     SizedBox(width: w * 0.02), // Small space between containers
-                    _ServiceContainer('CUSTOMER SUPPORT',
+                    _serviceContainer('CUSTOMER SUPPORT',
                         AssetConstant.customerService, Pallete.whiteColor),
                     SizedBox(width: w * 0.02), // Small space between containers
-                    _ServiceContainer('SALES AND SERVICE',
+                    _serviceContainer('SALES AND SERVICE',
                         AssetConstant.service, Colors.white),
                   ],
                 ),
@@ -551,15 +546,16 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                     SizedBox(
                       height: isTab ? h * 0.03 : w * 0.05,
                     ),
-                    Text(
-                      'Zmac',
-                      style: GoogleFonts.roboto(
-                        fontSize: isTab ? h * 0.03 : w * 0.06,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 3,
-                        color: Pallete.secondoryColor,
-                      ),
-                    ),
+                    SizedBox(height: h*0.2,width: w*0.25,child: Image.asset(AssetConstant.zmacLogo),),
+                    // Text(
+                    //   'Zmac',
+                    //   style: GoogleFonts.roboto(
+                    //     fontSize: isTab ? h * 0.03 : w * 0.06,
+                    //     fontWeight: FontWeight.bold,
+                    //     letterSpacing: 3,
+                    //     color: Pallete.secondoryColor,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: isTab ? h * 0.018 : w * 0.018,
                     ),
@@ -583,14 +579,30 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                         SizedBox(width: w * 0.02),
                         InkWell(
                           onTap: () async {
+                            const url = "https://www.facebook.com/zmac.calicut/";
+                            if (await canLaunchUrl(Uri.parse(url))) {
+                              await launchUrl(Uri.parse(url));
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: CircleAvatar(
+                              backgroundImage:
+                              const AssetImage(AssetConstant.facebook),
+                              radius: isTab ? h * 0.02 : w * 0.05),
+                        ),
+                        SizedBox(width: w * 0.02),
+                        InkWell(
+                          onTap: () async {
                             const url = "https://wa.me/919995245426";
 
                             if (await canLaunchUrl(Uri.parse(url))) {
                               await launchUrl(Uri.parse(url));
                             } else {
+                              if(context.mounted){
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('WhatsApp is not installed on this device')),
-                              );
+                                const SnackBar(content: Text('WhatsApp is not installed on this device')),
+                              );}
                             }
                           },
                           child: CircleAvatar(
@@ -601,7 +613,8 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                         SizedBox(width: w * 0.02),
                         InkWell(
                           onTap: () async {
-                            const url = "https://www.instagram.com/zmac.calicut/ ";
+                            const url =
+                                "https://www.google.com/maps/place/ZMAC+Solutions+Calicut/@11.2660295,75.7775614,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba659be300376f9:0x1529f08de7fa8319!8m2!3d11.2660243!4d75.7801363!16s%2Fg%2F11svmp1zv6?authuser=0&entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D";
                             if (await canLaunchUrl(Uri.parse(url))) {
                               await launchUrl(Uri.parse(url));
                             } else {
@@ -610,39 +623,48 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                           },
                           child: CircleAvatar(
                               backgroundImage:
-                                  const AssetImage(AssetConstant.facebook),
+                                  const AssetImage(AssetConstant.map),
+                              radius: isTab ? h * 0.02 : w * 0.05),
+                        ),
+                        SizedBox(width: w * 0.02),
+                        Tooltip( message: "+919995245426",
+                          child: CircleAvatar(
+                              child: const Icon(
+                                Icons.phone,
+                                color: Colors.green,
+                              ),
                               radius: isTab ? h * 0.02 : w * 0.05),
                         ),
                       ],
                     ),
                     SizedBox(height: h * 0.02),
-                    Center(
-                      child: InkWell(
-                        onTap: () async {
-                          const url =
-                              "https://www.google.com/maps/place/ZMAC+Solutions+Calicut/@11.2660295,75.7775614,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba659be300376f9:0x1529f08de7fa8319!8m2!3d11.2660243!4d75.7801363!16s%2Fg%2F11svmp1zv6?authuser=0&entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D";
-
-                          if (await canLaunch(url)) {
-                            await launch(url);
-                          } else {
-                            throw 'Could not launch $url';
-                          }
-                        },
-                        child: Text(
-                          'Location : Pootholi Building, Kiliyanad Road, behind Rajendra Hospital, Kozhikode, Kerala 673001',
-                          style: GoogleFonts.roboto(
-                              letterSpacing: 2,
-                              fontSize: isTab ? h * 0.02 : w * 0.04,
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
-                              decorationColor: Colors.blue),
-                        ),
-                      ),
-                    ),
+                    // Center(
+                    //   child: InkWell(
+                    //     onTap: () async {
+                    //       const url =
+                    //           "https://www.google.com/maps/place/ZMAC+Solutions+Calicut/@11.2660295,75.7775614,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba659be300376f9:0x1529f08de7fa8319!8m2!3d11.2660243!4d75.7801363!16s%2Fg%2F11svmp1zv6?authuser=0&entry=ttu&g_ep=EgoyMDI0MTAyMy4wIKXMDSoASAFQAw%3D%3D";
+                    //
+                    //       if (await canLaunch(url)) {
+                    //         await launch(url);
+                    //       } else {
+                    //         throw 'Could not launch $url';
+                    //       }
+                    //     },
+                    //     child: Text(
+                    //       'Location : Pootholi Building, Kiliyanad Road, behind Rajendra Hospital, Kozhikode, Kerala 673001',
+                    //       style: GoogleFonts.roboto(
+                    //           letterSpacing: 2,
+                    //           fontSize: isTab ? h * 0.02 : w * 0.04,
+                    //           color: Colors.blue,
+                    //           decoration: TextDecoration.underline,
+                    //           decorationColor: Colors.blue),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: h * 0.01),
                     InkWell(
                       onTap: () async {
-                        const url = "https://sidsimages@gmail.com ";
+                        const url = "https://zmaccalicut@gmail.com";
                         if (await canLaunchUrl(Uri.parse(url))) {
                           await launchUrl(Uri.parse(url));
                         } else {
@@ -650,14 +672,23 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                         }
                       },
                       child: SelectableText(
-                        'Email: zmac@gmail.com',
+                        'Email: zmaccalicut@gmail.com',
                         style: GoogleFonts.roboto(
                             letterSpacing: 2,
                             fontSize: isTab ? h * 0.02 : w * 0.04,
                             color: Pallete.secondoryColor),
                       ),
                     ),
+                    SizedBox(height: h * 0.01),
+                    SelectableText(
+                      'Contact No: +919995245426',
+                      style: GoogleFonts.roboto(
+                          letterSpacing: 2,
+                          fontSize: isTab ? h * 0.02 : w * 0.03,
+                          color: Pallete.secondoryColor),
+                    ),
                     SizedBox(height: h * 0.02),
+
                     Divider(
                         color: Colors.grey,
                         thickness: 0.5,
@@ -681,49 +712,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
     );
   }
 
-  Widget _rowContainer(
-      String title, String value, String imagePath, Color color) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.01),
-      child: Container(
-        width: isTab ? w * 0.4 : h * 0.4,
-        height: h * 0.3,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.contain,
-            image: AssetImage(imagePath),
-          ),
-          // color: Colors.black12,
-          borderRadius: BorderRadius.circular(w * 0.02),
-          border: Border.all(color: Colors.black38),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: GoogleFonts.roboto(
-                fontSize: isTab ? h * 0.028 : w * 0.03,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-            Text(
-              value,
-              style: GoogleFonts.roboto(
-                fontSize: w * 0.03,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _ServiceContainer(String title, String imagePath, Color color) {
+  Widget _serviceContainer(String title, String imagePath, Color color) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.01),
       child: Container(

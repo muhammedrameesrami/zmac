@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,40 +43,39 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
           html.window.location.reload();
         },
             child: SizedBox(
-                child:Image.asset(AssetConstant.logo))),
+                child:Image.asset(AssetConstant.zmacLogo))),
         title: Consumer(
             builder: (context,ref,child) {
-              return Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: List.generate(
-                      tabBarNames.length,
-                          (index) => Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            ref.read(taBarIndexProvider.notifier).update(
-                                  (state) => index,
-                            );
-                          },
-                          child: AnimatedContainer(
-                            height: h * .07,
-                            duration: const Duration(milliseconds: 500),
-                            child: Center(
-                              child: Text(
-                                tabBarNames[index],
-                                style: GoogleFonts.roboto(
-                                    color:ref.watch(taBarIndexProvider) == index
-                                        ? Pallete.secondoryColor
-                                        : Pallete.greyColor,fontWeight: FontWeight.bold,
-                                    letterSpacing: 4,
-                                    fontSize: isTab ? h * 0.03 : w * 0.025),
-                              ),
-                            ),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: List.generate(
+                  tabBarNames.length,
+                      (index) => Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(taBarIndexProvider.notifier).update(
+                              (state) => index,
+                        );
+                      },
+                      child: AnimatedContainer(
+                        height: h * .07,
+                        duration: const Duration(milliseconds: 500),
+                        child: Center(
+                          child: Text(
+                            tabBarNames[index],
+                            style: GoogleFonts.roboto(
+                                color:ref.watch(taBarIndexProvider) == index
+                                    ? Pallete.secondoryColor
+                                    : Pallete.greyColor,fontWeight: FontWeight.bold,
+                                letterSpacing: 4,
+                                fontSize: isTab ? h * 0.03 : w * 0.025),
                           ),
                         ),
                       ),
                     ),
-                  ));
+                  ),
+                ),
+              );
             }
         ),elevation: 0,
       ),
@@ -98,9 +96,10 @@ class _MobileHomeScreenState extends ConsumerState<MobileHomeScreen> {
           if (await canLaunchUrl(Uri.parse(url))) {
             await launchUrl(Uri.parse(url));
           } else {
+            if(mounted){
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('WhatsApp is not installed on this device')),
-            );
+              const SnackBar(content: Text('WhatsApp is not installed on this device')),
+            );}
           }
         },child: Image.asset(AssetConstant.watsApp),),
     ));

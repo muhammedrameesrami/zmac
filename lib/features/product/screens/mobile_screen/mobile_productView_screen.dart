@@ -1,8 +1,5 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:product_project/core/constant/asset_constant.dart';
@@ -10,8 +7,9 @@ import 'package:product_project/models/productModel.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart'as http;
 import 'dart:io' show File;
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+import '../../../../core/common/function.dart';
 
 
 
@@ -60,10 +58,11 @@ Check it out here: $deepLink/$productId
         }
       }
     } catch (e) {
-      print(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to share the product: $e")),
-      );
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to share the product: $e")),
+        );
+      }
     }
   }
 
@@ -77,18 +76,6 @@ Check it out here: $deepLink/$productId
       await Share.shareXFiles([XFile(newPath)], text: caption);
   }
 
-
-
-  final List<String> _imageUrls = [
-    AssetConstant.mac,
-    AssetConstant.iPad,
-    AssetConstant.groupDevice
-  ];
-
-  final String _productName = "Product Name";
-  final String _productDescription = "This is a detailed description of the product.";
-  final double _originalPrice = 1000.0;
-  final double _offerPrice = 800.0;
 
   late double w, h;
 
@@ -122,17 +109,13 @@ Check it out here: $deepLink/$productId
                   enlargeCenterPage: true,
                   autoPlay: true,
                 ),
-                items: widget.productModel.multipleImages.map((imageUrl) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Image.network(
-                        imageUrl,
-                        fit: BoxFit.fill,
-                        // width: double.infinity,
-                      );
-                    },
+                items: List.generate(widget.productModel.multipleImages.length, (index) {
+                  return Image.network(
+                    widget.productModel.multipleImages[index],
+                    fit: BoxFit.fill,
+                    // width: double.infinity,
                   );
-                }).toList(),
+                },)
               ),
               const SizedBox(height: 20),
               // Product Name
@@ -171,8 +154,8 @@ Check it out here: $deepLink/$productId
                     "₹${widget.productModel.ogprice}",
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
-                      decoration: TextDecoration.lineThrough,
+                      color: Colors.red,
+                      decoration: TextDecoration.lineThrough,decorationColor: Colors.red
                     ),
                   ),
                 ],
@@ -180,7 +163,7 @@ Check it out here: $deepLink/$productId
               const SizedBox(height: 20),
               // WhatsApp Button
               SizedBox(
-                width: isTab ? w * 0.3 : h * 0.3,
+                width: isTab ? w * 0.09 : h * 0.2,
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -195,9 +178,9 @@ Check it out here: $deepLink/$productId
                     // const discountedPrice = '₹ 150000';
                     // const discount = '30% off';
                     await shareEvent(context: context,
-                    productDescription: widget.productModel.description,productName: widget.productModel.productName,
-                    image:AssetConstant.mac,
-                    productId:widget.productModel.productId,);
+                      productDescription: widget.productModel.description,productName: widget.productModel.productName,
+                      image:AssetConstant.macBook,
+                      productId:widget.productModel.productId,);
                     // Share the product details using Share Plus
                     // Share.share(
                     //     'Check out this amazing deal!\n\n$productName\nOriginal Price: $originalPrice\nDiscounted Price: $discountedPrice\n$discount',
@@ -205,9 +188,38 @@ Check it out here: $deepLink/$productId
                     // );
                     // _shareProductWithImage();
                   },// Call the method here
-                  icon: const Icon(CupertinoIcons.chat_bubble_text),
+                  icon: const Icon(Icons.share),
                   label: const Text(
-                    "Order on WhatsApp",
+                    "Share Now",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              SizedBox(
+                width: isTab ? w * 0.2 : h * 0.3,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    padding: const EdgeInsets.all(15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    sendWhatsAppMessage(
+                        imageUrl: widget.productModel.image,
+                        description:
+                        widget.productModel.description,
+                        productName:
+                        widget.productModel.productName);
+                  },// Call the method here
+                  icon: const Icon(Icons.ads_click),
+                  label: const Text(
+                    "Buy Now",
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
@@ -222,37 +234,5 @@ Check it out here: $deepLink/$productId
     );
   }
 
-  Future<void> _shareProductWithImage(BuildContext context) async {
-    try {
-      // Assuming the images are locally stored, modify the logic if needed
-      final imageUrl = _imageUrls.first; // You can choose the first image or any other
-      final ByteData bytes = await rootBundle.load(imageUrl); // Load local image
-      final Uint8List list = bytes.buffer.asUint8List();
 
-      final documentDirectory = await getTemporaryDirectory();
-      final imageFile = File('${documentDirectory.path}/shared_image.png');
-      await imageFile.writeAsBytes(list);
-
-      // Product details to share
-      final String shareText = '''
-Product: $_productName
-Description: $_productDescription
-Original Price: ₹${_originalPrice.toStringAsFixed(2)}
-Offer Price: ₹${_offerPrice.toStringAsFixed(2)}
-
-Check out this amazing product!
-''';
-
-      // Share the image and text
-      Share.shareXFiles([XFile(imageFile.path)], text: shareText);
-    } catch (e) {
-      // print(e.toString());
-      if(context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to share the product: $e"),
-        ) );
-      }
-    }
-  }
 }

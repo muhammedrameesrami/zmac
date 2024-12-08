@@ -9,7 +9,7 @@ Future<void> sendWhatsAppMessage({
     "$productName\n$description\n I want this product: $imageUrl",
   );
 
-  final whatsappUrl = "https://wa.me/919539650196?text=$message";
+  final whatsappUrl = "https://wa.me/919995245426?text=$message";
 
   if (await canLaunch(whatsappUrl)) {
     await launch(whatsappUrl);
