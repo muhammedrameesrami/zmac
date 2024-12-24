@@ -24,7 +24,6 @@ class ProductViewScreen extends StatefulWidget {
 class _ProductViewScreenState extends State<ProductViewScreen> {
 
 
-  String deepLink = 'https://zmac-48c3a.web.app/';
 
   shareEvent({
     required String image,
@@ -34,14 +33,15 @@ class _ProductViewScreenState extends State<ProductViewScreen> {
     required BuildContext context,
   }) async {
     try {
+      String deepLink = 'https://zmacsolutions.in/products/$productId';
 
       final text = '''
 $productName
 $productDescription
-Check it out here: $deepLink/$productId
+Check it out here: $deepLink
 ''';
       if (kIsWeb) {
-        await Share.share(text);
+        await Share.share(text,subject: 'Check out this product!',);
       } else {
         final url = Uri.parse(image);
         final response = await http.get(url);
@@ -173,21 +173,13 @@ Check it out here: $deepLink/$productId
                     ),
                   ),
                   onPressed: () async {
-                    // const productName = 'MacBook Air 13” and 15 \n M2 or M3 chip';
-                    // const originalPrice = '₹ 680000';
-                    // const discountedPrice = '₹ 150000';
-                    // const discount = '30% off';
+
                     await shareEvent(context: context,
                       productDescription: widget.productModel.description,productName: widget.productModel.productName,
-                      image:AssetConstant.macBook,
+                      image:widget.productModel.image,
                       productId:widget.productModel.productId,);
-                    // Share the product details using Share Plus
-                    // Share.share(
-                    //     'Check out this amazing deal!\n\n$productName\nOriginal Price: $originalPrice\nDiscounted Price: $discountedPrice\n$discount',
-                    //     subject: 'Special Offer on MacBook Air! http://localhost:61104/}'
-                    // );
-                    // _shareProductWithImage();
-                  },// Call the method here
+
+                  },
                   icon: const Icon(Icons.share),
                   label: const Text(
                     "Share Now",

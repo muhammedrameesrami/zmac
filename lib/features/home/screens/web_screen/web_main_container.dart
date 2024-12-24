@@ -658,11 +658,11 @@ class _WebMainContainerState extends ConsumerState<WebMainContainer> {
                     SizedBox(width: w * 0.02),
                     Tooltip( message: "+919995245426",
                       child: CircleAvatar(
+                          radius: isTab ? h * 0.02 : w * 0.06,
                           child: const Icon(
                             Icons.phone,
                             color: Colors.green,
-                          ),
-                          radius: isTab ? h * 0.02 : w * 0.06),
+                          )),
                     ),
                   ],
                 ),

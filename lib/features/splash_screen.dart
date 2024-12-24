@@ -20,22 +20,25 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+
   Future<void> checkUrlAndNavigate() async {
     // Get the current URL
     var currentUrl = html.window.location.href;
     var uri = Uri.parse(currentUrl);
+
     if (uri.pathSegments.isNotEmpty && uri.pathSegments.last.isNotEmpty) {
       var productId = uri.pathSegments.last; // Extract the last segment
       final ProductModel productModel=await FirebaseFirestore.instance.collection('products').doc(productId).get().then((value) => ProductModel.fromMap(value.data() ??{}),);
-     if(mounted) {
-       Navigator.push(context, MaterialPageRoute(builder: (context) =>
-           ProductViewScreen(productModel: productModel,),));
-       html.window.history.replaceState(null,'Product Page', '/');
-     }  } else {
+   print("productModel ${productModel.toMap()}");
+      if(mounted) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+            ProductViewScreen(productModel: productModel,),));
+        html.window.history.replaceState(null,'Product Page', '/');
+      }  } else {
       // Navigate to a default page if no product ID is present in the URL
       Future.delayed(const Duration(seconds: 1)).then((value) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
-      });
+        });
     }
   }
 
