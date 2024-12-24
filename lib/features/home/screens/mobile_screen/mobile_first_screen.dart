@@ -409,7 +409,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
               SizedBox(
                 height: isTab ? h * 0.025 : w * 0.025,
               ),
-              Container(
+              SizedBox(
                 height: isTab ? h * 0.52 : w * 0.75,
                 width: w, // Ensure the container takes full width
                 child: Stack(
@@ -449,7 +449,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Image.network(data[index].image,fit: BoxFit.contain,height: h*0.3,width: w*.38,),
-                                            Container(height:isTab?h*0.1: w*0.1*0.5,
+                                            SizedBox(height:isTab?h*0.1: w*0.1*0.5,
                                               child: Center(
                                                 child: Text(
                                                   data[index].productName,
@@ -506,7 +506,7 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
               Text(
                 'APPLE PRODUCT SALE AND SERVICE',
                 style: GoogleFonts.roboto(
-                    fontSize: isTab ? h * 0.03 : w * 0.06,
+                    fontSize: isTab ? h * 0.03 : w * 0.05,
                     color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
@@ -629,11 +629,11 @@ class _MobileFirstScreenState extends ConsumerState<MobileFirstScreen> {
                         SizedBox(width: w * 0.02),
                         Tooltip( message: "+919995245426",
                           child: CircleAvatar(
+                              radius: isTab ? h * 0.02 : w * 0.05,
                               child: const Icon(
                                 Icons.phone,
                                 color: Colors.green,
-                              ),
-                              radius: isTab ? h * 0.02 : w * 0.05),
+                              )),
                         ),
                       ],
                     ),

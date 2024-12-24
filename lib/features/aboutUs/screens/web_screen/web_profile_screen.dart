@@ -14,6 +14,7 @@ class WebAboutUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final isTab=w>h;
     w=MediaQuery.of(context).size.width;
     h=MediaQuery.of(context).size.height;
@@ -40,19 +41,19 @@ SizedBox(width: w,child: Wrap(alignment: WrapAlignment.center,children: [
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _rowContainer(
-                      'TOTAL SALES', '10K+', AssetConstant.macBook,Colors.black),
+                      'TOTAL SALES', 'MINIMAL SATISFIED', AssetConstant.macBook,Colors.white),
                   SizedBox(width: w * 0.02), // Small space between containers
-                  _rowContainer('TOTAL PRODUCTS', '2000+',
+                  _rowContainer('TOTAL PRODUCTS', '1000+',
                       AssetConstant.iPad,Pallete.whiteColor  ),
                   SizedBox(width: w * 0.02), // Small space between containers
                   _rowContainer(
-                      'HAPPY CUSTOMER', '10K+', AssetConstant.ipods,Colors.white),
+                      ' TRUSTED HAPPY CUSTOMER','MORE SATISFIED', AssetConstant.ipods,Colors.white),
                 ],
               ),
             ),
 
             SizedBox(height: isTab ? w * 0.01 : h * 0.01),
-Text('APPLE PRODUCT  SALE AND SERVICE',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.028 : w * 0.06,color: Colors.black,fontWeight: FontWeight.bold),),
+Text('APPLE PRODUCT  SALE AND SERVICE',style: GoogleFonts.roboto(fontSize: isTab ? h * 0.028 : w * 0.05,color: Colors.black,fontWeight: FontWeight.bold),),
             SizedBox(
               width: w,
               child: Wrap(crossAxisAlignment: WrapCrossAlignment.center,
@@ -167,11 +168,11 @@ Text('APPLE PRODUCT  SALE AND SERVICE',style: GoogleFonts.roboto(fontSize: isTab
                       Tooltip(
                         message: "+919995245426", // The number displayed in the tooltip
                         child: CircleAvatar(
+                          radius: isTab ? h * 0.02 : w * 0.06,
                           child: const Icon(
                             Icons.phone,
                             color: Colors.green,
                           ),
-                          radius: isTab ? h * 0.02 : w * 0.06,
                         ),
                       ),
                       SizedBox(width: w * 0.02),
@@ -278,7 +279,7 @@ Text('APPLE PRODUCT  SALE AND SERVICE',style: GoogleFonts.roboto(fontSize: isTab
             Text(
               value,
               style: GoogleFonts.roboto(
-                fontSize: w * 0.03,
+                fontSize: w * 0.025,
                 fontWeight: FontWeight.bold,
                 color:color,
               ),
